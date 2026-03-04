@@ -248,7 +248,7 @@ footer a:hover{color:var(--ac)}
   </div>
   <div class="fg"><label>태그 <small style="font-weight:400">(쉼표 구분)</small></label><input type="text" id="inTags" placeholder="일상, 커피, 취미"></div>
   <div class="fg">
-    <label>대표 썸네일 <small style="font-weight:400">(선택 · 최대 500KB)</small></label>
+    <label>대표 썸네일 <small style="font-weight:400">(선택 · 자동 압축)</small></label>
     <div class="tz" onclick="document.getElementById('tf').click()">📷 클릭해서 썸네일 이미지 선택</div>
     <input type="file" id="tf" accept="image/*" style="display:none" onchange="onThumb(event)">
     <img class="tp" id="tp" alt="">
@@ -342,7 +342,7 @@ function rBlocks(){
     if(b.type==='text'){
       d.innerHTML=`<div class="bh"><span class="bl">📝 텍스트 블록</span>${acts}</div><div class="tin"><textarea class="ta" placeholder="내용을 입력하세요..." oninput="uTx(${b._id},this.value);aH(this)" rows="4">${x(b.content)}</textarea></div>`;
     }else{
-      d.innerHTML=`<div class="bh"><span class="bl">🖼 이미지 블록</span>${acts}</div><div class="iin"><div class="uz ${b.data?'f':''}" onclick="document.getElementById('if_${b._id}').click()">${b.data?`<img src="${b.data}" alt="">`:'<div class="uzi">📷</div><div class="uzt">클릭해서 이미지 업로드 (최대 800KB)</div>'}</div><input type="file" accept="image/*" id="if_${b._id}" style="display:none" onchange="onImg(${b._id},event)"><input class="ci" type="text" placeholder="📝 사진 설명 입력 (선택)" value="${x(b.caption||'')}" oninput="uCp(${b._id},this.value)"></div>`;
+      d.innerHTML=`<div class="bh"><span class="bl">🖼 이미지 블록</span>${acts}</div><div class="iin"><div class="uz ${b.data?'f':''}" onclick="document.getElementById('if_${b._id}').click()">${b.data?`<img src="${b.data}" alt="">`:'<div class="uzi">📷</div><div class="uzt">클릭해서 이미지 업로드 (자동 압축)</div>'}</div><input type="file" accept="image/*" id="if_${b._id}" style="display:none" onchange="onImg(${b._id},event)"><input class="ci" type="text" placeholder="📝 사진 설명 입력 (선택)" value="${x(b.caption||'')}" oninput="uCp(${b._id},this.value)"></div>`;
     }
     w.appendChild(d);
     if(b.type==='text'){const ta=d.querySelector('textarea');if(ta){ta.style.height='auto';ta.style.height=ta.scrollHeight+'px';}}
@@ -351,15 +351,34 @@ function rBlocks(){
 function uTx(id,v){const b=blocks.find(q=>q._id===id);if(b)b.content=v;}
 function uCp(id,v){const b=blocks.find(q=>q._id===id);if(b)b.caption=v;}
 function aH(ta){ta.style.height='auto';ta.style.height=ta.scrollHeight+'px';}
+function compressImg(file, maxW, quality, cb){
+  const r=new FileReader();
+  r.onload=ev=>{
+    const img=new Image();
+    img.onload=()=>{
+      let w=img.width,h=img.height;
+      if(w>maxW){h=Math.round(h*maxW/w);w=maxW;}
+      const c=document.createElement('canvas');c.width=w;c.height=h;
+      c.getContext('2d').drawImage(img,0,0,w,h);
+      cb(c.toDataURL('image/jpeg',quality));
+    };
+    img.src=ev.target.result;
+  };
+  r.readAsDataURL(file);
+}
 function onImg(id,e){
   const f=e.target.files[0];if(!f)return;
-  if(f.size>800*1024){toast('이미지는 800KB 이하로 해주세요','err');return;}
-  const r=new FileReader();r.onload=ev=>{const b=blocks.find(q=>q._id===id);if(b){b.data=ev.target.result;rBlocks();}};r.readAsDataURL(f);
+  toast('이미지 압축 중...','');
+  compressImg(f,1200,0.75,data=>{
+    const b=blocks.find(q=>q._id===id);if(b){b.data=data;rBlocks();toast('이미지 추가됨 ✓','ok');}
+  });
 }
 function onThumb(e){
   const f=e.target.files[0];if(!f)return;
-  if(f.size>500*1024){toast('썸네일은 500KB 이하로 해주세요','err');return;}
-  const r=new FileReader();r.onload=ev=>{tB64=ev.target.result;const p=document.getElementById('tp');p.src=tB64;p.classList.add('on');};r.readAsDataURL(f);
+  toast('썸네일 압축 중...','');
+  compressImg(f,800,0.75,data=>{
+    tB64=data;const p=document.getElementById('tp');p.src=tB64;p.classList.add('on');toast('썸네일 추가됨 ✓','ok');
+  });
 }
 function openWrite(){
   em=false;blocks=[];tB64='';bid=0;
