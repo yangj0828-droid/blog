@@ -1274,8 +1274,10 @@
         padding: 0 16px
       }
 
-      .fr {
-        grid-template-columns: 1fr
+      .hi nav,
+      .hi button,
+      .hi span {
+        font-family: 'Jost', 'Noto Sans KR', sans-serif !important;
       }
     }
   </style>
@@ -1331,17 +1333,16 @@
     </section>
 
     <section class="feat-sec">
-      <div class="sec-ttl">
-        <p>Discover</p>
-        <h2>Explore Categories</h2>
+      <div class="sec-ttl" style="text-align:center;">
+        <div style="font-size:32px; margin-bottom:10px;">✨</div>
       </div>
       <div class="cb">
         <div class="cbi" id="topCatStats">
           <button class="cp active" onclick="filterCat('전체');setCat(this)">모든 순간 All</button>
           <button class="cp" onclick="filterCat('일상');setCat(this)">나의 일상 Daily</button>
-          <button class="cp" onclick="filterCat('기술/IT');setCat(this)">연구와 기술 Tech</button>
           <button class="cp" onclick="filterCat('여행');setCat(this)">먼 곳의 여행 Travel</button>
           <button class="cp" onclick="filterCat('음식');setCat(this)">미식의 기록 Food</button>
+          <button class="cp" onclick="filterCat('리뷰');setCat(this)">솔직한 리뷰 Review</button>
           <button class="cp" onclick="filterCat('기타');setCat(this)">그 외의 생각 Etc</button>
         </div>
       </div>
@@ -1424,9 +1425,9 @@
         <div class="fg"><label>제목 Title</label><input type="text" id="inTitle" placeholder="글 제목을 입력하세요"></div>
         <div class="fg"><label>카테고리</label><select id="inCat">
             <option value="일상">일상 Daily</option>
-            <option value="기술/IT">기술/IT</option>
             <option value="여행">여행 Travel</option>
             <option value="음식">음식 Food</option>
+            <option value="리뷰">리뷰 Review</option>
             <option value="기타">기타 Etc</option>
           </select></div>
       </div>
@@ -1456,8 +1457,8 @@
   <div class="toast" id="toast"></div>
   <script>
     const AID = 'admin', APW = 'blog1234';
-    const CATS = ['일상', '기술/IT', '여행', '음식', '기타'];
-    const EM = { '일상': '🌿', '기술/IT': '💻', '여행': '✈️', '음식': '🍜', '기타': '📝' };
+    const CATS = ['일상', '여행', '음식', '리뷰', '기타'];
+    const EM = { '일상': '🌿', '여행': '✈️', '음식': '🍜', '리뷰': '⭐', '기타': '📝' };
     let isAdmin = false, fbOk = false, cf = '전체', cid = null, em = false;
     let posts = [], blocks = [], tB64 = '', bid = 0;
 
@@ -1506,7 +1507,7 @@
         let allHtml = `<button class="cp ${cf === '전체' ? 'active' : ''}" onclick="filterCat('전체');setCat(this)">전체 All <span style="background:var(--tb);font-size:10px;padding:2px 6px;border-radius:10px;margin-left:4px;">${ps.length}</span></button>`;
         const catsHtml = CATS.map(c => {
           const count = ps.filter(p => p.category === c).length;
-          const eNames = { '일상': 'Daily', '기술/IT': 'Tech', '여행': 'Travel', '음식': 'Food', '기타': 'Etc' };
+          const eNames = { '일상': 'Daily', '여행': 'Travel', '음식': 'Food', '리뷰': 'Review', '기타': 'Etc' };
           return `<button class="cp ${cf === c ? 'active' : ''}" onclick="filterCat('${c}');setCat(this)">${c} ${eNames[c] || ''} <span style="background:var(--tb);font-size:10px;padding:2px 6px;border-radius:10px;margin-left:4px;">${count}</span></button>`;
         }).join('');
         topStats.innerHTML = allHtml + catsHtml;
@@ -1584,10 +1585,18 @@
     function adminToggle() { isAdmin ? logout() : om('loginModal'); }
     function doLogin() {
       const id = document.getElementById('inId').value.trim(), pw = document.getElementById('inPw').value;
-      if (id === AID && pw === APW) { isAdmin = true; cm('loginModal'); document.getElementById('adminBar').classList.add('on'); document.getElementById('adminBtn').textContent = '●'; document.getElementById('adminBtn').style.color = 'var(--ac)'; toast('관리자 로그인 완료 ✓', 'ok'); rg(posts); }
+      if (id === AID && pw === APW) {
+        isAdmin = true;
+        localStorage.setItem('blog_admin', 'true');
+        cm('loginModal'); document.getElementById('adminBar').classList.add('on'); document.getElementById('adminBtn').textContent = '●'; document.getElementById('adminBtn').style.color = 'var(--ac)'; toast('관리자 로그인 완료 ✓', 'ok'); rg(posts);
+      }
       else { document.getElementById('loginErr').classList.add('on'); document.getElementById('inPw').value = ''; }
     }
-    function logout() { isAdmin = false; document.getElementById('adminBar').classList.remove('on'); document.getElementById('adminBtn').textContent = '●'; document.getElementById('adminBtn').style.color = 'transparent'; document.getElementById('adb').style.display = 'none'; toast('로그아웃', ''); rg(posts); }
+    function logout() {
+      isAdmin = false;
+      localStorage.removeItem('blog_admin');
+      document.getElementById('adminBar').classList.remove('on'); document.getElementById('adminBtn').textContent = '●'; document.getElementById('adminBtn').style.color = 'transparent'; document.getElementById('adb').style.display = 'none'; toast('로그아웃', ''); rg(posts);
+    }
     function addTxt(c = '') { const id = bid++; blocks.push({ _id: id, type: 'text', content: c }); rBlocks(); setTimeout(() => { const ta = document.querySelector(`[data-bid="${id}"] textarea`); if (ta) ta.focus(); }, 50); }
     function addImg(d = '', cap = '') { const id = bid++; blocks.push({ _id: id, type: 'image', data: d, caption: cap }); rBlocks(); }
     function rmBlock(id) { blocks = blocks.filter(b => b._id !== id); rBlocks(); }
@@ -1718,7 +1727,16 @@
     let _tt;
     function toast(msg, type) { const el = document.getElementById('toast'); el.textContent = msg; el.className = `toast on ${type}`; clearTimeout(_tt); _tt = setTimeout(() => el.classList.remove('on'), 3000); }
     function x(s) { return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
-    document.addEventListener('firebaseReady', () => { fbOk = true; load(); });
+    document.addEventListener('firebaseReady', () => {
+      fbOk = true;
+      if (localStorage.getItem('blog_admin') === 'true') {
+        isAdmin = true;
+        document.getElementById('adminBar').classList.add('on');
+        document.getElementById('adminBtn').textContent = '●';
+        document.getElementById('adminBtn').style.color = 'var(--ac)';
+      }
+      load();
+    });
     setTimeout(() => { if (!fbOk) document.getElementById('ag').innerHTML = '<div class="empty"><div class="ei">⚠️</div><p>Firebase 연결 실패. 새로고침 해주세요.</p></div>'; }, 6000);
   </script>
 </body>
