@@ -31,6 +31,7 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const storage = getStorage(app);
+    window.db = () => db; // Global accessor
     window._db = db; window._col = collection; window._addDoc = addDoc; window._getDocs = getDocs;
     window._doc = doc; window._updateDoc = updateDoc; window._deleteDoc = deleteDoc;
     window._orderBy = orderBy; window._query = query; window._serverTimestamp = serverTimestamp; window._increment = increment;
@@ -1298,15 +1299,13 @@
         <a href="https://threads.net" target="_blank" class="nl" aria-label="Threads"
           style="font-size:18px; color:#000000; transition: transform 0.2s;"><i class="fa-brands fa-threads"></i></a>
 
-        <div style="display:flex; align-items:center; gap:8px;">
-          <span style="font-size:10px; color:var(--tl); font-weight:700; letter-spacing:1px;">v2.1 CLOUD</span>
+        <div style="display:flex; align-items:center;">
           <img
             src="https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fyangj0828-droid.github.io%2Fblog&countColor=%23AE8D7A"
             alt="Hits" style="height:20px; opacity:0.9; border-radius:4px;">
         </div>
         <button id="adminBtn" onclick="adminToggle()"
-          style="background:none; border: 1px solid var(--border); border-radius: 20px; color:var(--text); font-size:11px; font-weight:700; padding: 6px 15px; cursor:pointer; font-family:var(--fk); transition:.3s; letter-spacing: 1px;">LOGIN
-          (Cloud)</button>
+          style="background:none; border: 1px solid var(--border); border-radius: 20px; color:var(--text); font-size:11px; font-weight:700; padding: 6px 15px; cursor:pointer; font-family:var(--fk); transition:.3s; letter-spacing: 1px;">LOGIN</button>
       </nav>
     </div>
   </header>
@@ -1432,7 +1431,7 @@
       <div class="fg"><label>태그 <small style="font-weight:400">(쉼표 구분)</small></label><input type="text" id="inTags"
           placeholder="일상, 커피, 취미"></div>
       <div class="fg">
-        <label>대표 썸네일 <small style="font-weight:400">(Cloud 원본 업로드)</small></label>
+        <label>대표 썸네일 <small style="font-weight:400">(선택 · 자동 압축)</small></label>
         <div class="tz" onclick="document.getElementById('tf').click()">📷 클릭해서 썸네일 이미지 선택</div>
         <input type="file" id="tf" accept="image/*" style="display:none" onchange="onThumb(event)">
         <img class="tp" id="tp" alt="">
@@ -1681,8 +1680,8 @@
         else { await fbAdd(data); toast('등록 완료 ✓', 'ok'); }
         cm('writeModal'); await load(); if (em) openPost(cid);
       } catch (e) {
-        console.error("Save Error:", e);
-        toast('저장 실패: ' + (e.message || '알 수 없는 오류'), 'err');
+        console.error(e);
+        toast('저장 실패: ' + e.message, 'err');
       }
       finally { btn.disabled = false; btn.textContent = '저장하기 Save'; }
     }
