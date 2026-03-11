@@ -294,7 +294,7 @@
 
     .ag {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 18px
     }
 
@@ -1150,6 +1150,12 @@
 
     @media(max-width:900px) {
       .ag {
+        grid-template-columns: repeat(3, 1fr)
+      }
+    }
+
+    @media(max-width:700px) {
+      .ag {
         grid-template-columns: repeat(2, 1fr)
       }
     }
@@ -1205,11 +1211,19 @@
   </header>
   <div id="heroWrap">
     <div class="hero">
-      <h1 style="margin-bottom:8px;">기록</h1>
-      <p
-        style="font-size:16px; font-weight:400; color:var(--tm); font-family:var(--fk); letter-spacing:1px; margin-bottom:24px;">
-        Record 記錄</p>
+      <h1 style="margin-bottom:12px; font-weight:800;">記錄 <span
+          style="font-weight:400; font-family:var(--fk); font-size:0.7em; letter-spacing:1px; color:#555;">Record</span>
+      </h1>
       <p>오늘의 기록이 내일의 추억이 되는 공간입니다.<br>일상, 개발, 그리고 여행 이야기를 자유롭게 나눕니다.</p>
+
+      <div style="margin-top:28px; display:flex; justify-content:center;">
+        <div style="position:relative; max-width:400px; width:100%;">
+          <input type="text" id="searchInput" placeholder="게시물 검색..." onkeyup="if(event.key==='Enter')doSearch()"
+            style="width:100%; padding:12px 20px; border-radius:30px; border:1px solid var(--border); box-shadow:var(--ss); font-family:var(--fk); font-size:15px; outline:none; transition:0.2s;">
+          <button onclick="doSearch()"
+            style="position:absolute; right:6px; top:6px; background:var(--ac); color:#fff; border:none; border-radius:24px; padding:6px 14px; font-weight:700; cursor:pointer;">검색</button>
+        </div>
+      </div>
     </div>
     <div class="cb">
       <div class="cbi" id="topCatStats">
@@ -1371,6 +1385,16 @@
     }
     function goHome() { cid = null; document.getElementById('mainView').style.display = ''; document.getElementById('heroWrap').style.display = ''; document.getElementById('dv').classList.remove('on'); rg(posts); window.scrollTo(0, 0); }
     function filterCat(c) { cf = c; if (document.getElementById('mainView').style.display === 'none') goHome(); else rg(posts); }
+    function doSearch() {
+      const kw = document.getElementById('searchInput').value.trim().toLowerCase();
+      cf = '전체';
+      document.querySelectorAll('.cp').forEach(b => b.classList.remove('active'));
+      document.querySelector('.cp').classList.add('active'); // 전체 버튼 활성화
+      if (!kw) { rg(posts); return; }
+      const res = posts.filter(p => p.title.toLowerCase().includes(kw) || (p.tags || []).some(t => t.toLowerCase().includes(kw)) || (p.body || '').toLowerCase().includes(kw));
+      rg(res);
+      if (!res.length) { document.getElementById('ag').innerHTML = '<div class="empty"><div class="ei">🔍</div><p>검색 결과가 없습니다.</p></div>'; }
+    }
     function setNav(el) { document.querySelectorAll('.nl:not(.na)').forEach(b => b.classList.remove('active')); el.classList.add('active'); }
     function setCat(el) { document.querySelectorAll('.cp').forEach(b => b.classList.remove('active')); el.classList.add('active'); }
     async function openPost(id) {
@@ -1406,13 +1430,26 @@
     async function addCmt() {
       const t = document.getElementById('cmtInput').value.trim(), e = document.getElementById('cmtEmoji').value;
       if (!t) return toast('댓글 내용을 입력해주세요', 'err');
-      // 로그인 권한(fbOk 등) 체크 로직 제거하여 아무나 작성 가능하도록 변경
+
       document.getElementById('cmtInput').disabled = true;
       try {
-        await window._addDoc(window._col(db(), 'comments'), { postId: cid, text: t, emoji: e, createdAt: window._serverTimestamp() });
+        await window._addDoc(window._col(db(), 'comments'), {
+          postId: cid,
+          text: t,
+          emoji: e,
+          createdAt: window._serverTimestamp()
+        });
         document.getElementById('cmtInput').value = '';
-        await loadCmt(cid); toast('댓글이 등록되었습니다', 'ok');
-      } catch (err) { toast('댓글 등록 실패 (권한 문제일 수 있습니다)', 'err'); }
+        await loadCmt(cid);
+        toast('댓글이 등록되었습니다', 'ok');
+      } catch (err) {
+        console.error("댓글 등록 에러:", err);
+        if (err.message && err.message.includes('permission')) {
+          toast('권한 에러: Firebase 콘솔에서 Firestore Rules를 누구나 쓰기 가능하도록 빈 규칙(allow read, write: if true;)으로 개방해주셔야 합니다.', 'err');
+        } else {
+          toast('댓글 등록에 실패했습니다.', 'err');
+        }
+      }
       finally { document.getElementById('cmtInput').disabled = false; }
     }
     function adminToggle() { isAdmin ? logout() : om('loginModal'); }
