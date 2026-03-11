@@ -10,8 +10,7 @@
   <meta property="og:title" content="나의 기록 블로그 | My Record Blog">
   <meta property="og:type" content="website">
   <title>나의 기록 블로그 | My Record Blog</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link
     href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;700;900&display=swap"
     rel="stylesheet">
@@ -1223,7 +1222,7 @@
 
         <div style="display:flex; align-items:center;">
           <img
-            src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fyangj0828-droid.github.io%2Fblog&count_bg=%237C3AED&title_bg=%231E1E3F&icon=&icon_color=%23E7E7E7&title=Today+%2F+Total&edge_flat=true"
+            src="https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fyangj0828-droid.github.io%2Fblog&countColor=%237C3AED"
             alt="Hits" style="border:2px solid var(--border); box-shadow:var(--ss); height: 28px;">
         </div>
         <button id="adminBtn" onclick="adminToggle()"
@@ -1521,17 +1520,21 @@
       }
       function onImg(id, e) {
         const f = e.target.files[0]; if (!f) return;
-        toast('이미지 압축 중...', '');
-        compressImg(f, 1200, 0.75, data => {
-          const b = blocks.find(q => q._id === id); if (b) { b.data = data; rBlocks(); toast('이미지 추가됨 ✓', 'ok'); }
-        });
+        toast('원본 이미지 업로드 중...', '');
+        const r = new FileReader();
+        r.onload = ev => {
+          const b = blocks.find(q => q._id === id); if (b) { b.data = ev.target.result; rBlocks(); toast('이미지 추가됨 ✓', 'ok'); }
+        };
+        r.readAsDataURL(f);
       }
       function onThumb(e) {
         const f = e.target.files[0]; if (!f) return;
-        toast('썸네일 압축 중...', '');
-        compressImg(f, 800, 0.75, data => {
-          tB64 = data; const p = document.getElementById('tp'); p.src = tB64; p.classList.add('on'); toast('썸네일 추가됨 ✓', 'ok');
-        });
+        toast('원본 썸네일 업로드 중...', '');
+        const r = new FileReader();
+        r.onload = ev => {
+          tB64 = ev.target.result; const p = document.getElementById('tp'); p.src = tB64; p.classList.add('on'); toast('썸네일 추가됨 ✓', 'ok');
+        };
+        r.readAsDataURL(f);
       }
       function openWrite() {
         em = false; blocks = []; tB64 = ''; bid = 0;
