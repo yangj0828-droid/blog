@@ -1293,7 +1293,7 @@
         <span class="ls" style="color:var(--tm);font-family:var(--fk);font-weight:400;letter-spacing:1px;">RECORD
           記錄</span>
       </a>
-      <nav style="gap:16px; align-items:center;">
+      <nav style="gap:16px; align-items:center; font-family:var(--fk);">
         <a href="https://instagram.com" target="_blank" class="nl" aria-label="Instagram"
           style="font-size:18px; color:#E4405F; transition: transform 0.2s;"><i class="fa-brands fa-instagram"></i></a>
         <a href="https://threads.net" target="_blank" class="nl" aria-label="Threads"
@@ -1305,46 +1305,48 @@
             alt="Hits" style="height:20px; opacity:0.9; border-radius:4px;">
         </div>
         <button id="adminBtn" onclick="adminToggle()"
-          style="background:none; border: 1px solid var(--border); border-radius: 20px; color:var(--text); font-size:11px; font-weight:700; padding: 6px 15px; cursor:pointer; font-family:var(--fk); transition:.3s; letter-spacing: 1px;">LOGIN</button>
+          style="background:none; border: 1px solid var(--border); border-radius: 20px; color:var(--text); font-size:11px; font-weight:700; padding: 6px 15px; cursor:pointer; font-family:inherit; transition:.3s; letter-spacing: 1px;">LOGIN</button>
       </nav>
     </div>
   </header>
 
-  <section class="hero">
-    <div class="hero-box">
-      <h1 style="margin-bottom:0px; font-weight:600;">記錄</h1>
-      <p style="font-family:var(--fd); letter-spacing: 0.1em; color: var(--ac);">RECORD</p>
-      <div style="margin-top:40px; display:flex; justify-content:center;">
-        <div style="position:relative; max-width:400px; width:100%;">
-          <input type="text" id="searchInput" placeholder="Search..." onkeyup="if(event.key==='Enter')doSearch()"
-            style="width:100%; padding:18px 25px; border:none; background:rgba(255,255,255,0.8); color:var(--text); font-family:var(--fk); font-size:14px; outline:none; transition:0.3s; backdrop-filter:blur(10px);">
-          <button onclick="doSearch()"
-            style="position:absolute; right:15px; top:50%; transform:translateY(-50%); background:none; color:var(--text); border:none; font-size:16px; cursor:pointer;"><i
-              class="fa-solid fa-magnifying-glass"></i></button>
+  <div id="heroWrap">
+    <section class="hero">
+      <div class="hero-box">
+        <h1 style="margin-bottom:0px; font-weight:600;">記錄</h1>
+        <p style="font-family:var(--fd); letter-spacing: 0.1em; color: var(--ac);">RECORD</p>
+        <div style="margin-top:40px; display:flex; justify-content:center;">
+          <div style="position:relative; max-width:400px; width:100%;">
+            <input type="text" id="searchInput" placeholder="Search..." onkeyup="if(event.key==='Enter')doSearch()"
+              style="width:100%; padding:18px 25px; border:none; background:rgba(255,255,255,0.8); color:var(--text); font-family:var(--fk); font-size:14px; outline:none; transition:0.3s; backdrop-filter:blur(10px);">
+            <button onclick="doSearch()"
+              style="position:absolute; right:15px; top:50%; transform:translateY(-50%); background:none; color:var(--text); border:none; font-size:16px; cursor:pointer;"><i
+                class="fa-solid fa-magnifying-glass"></i></button>
+          </div>
+        </div>
+        <p class="sub"
+          style="margin-top: 30px; letter-spacing: 0; text-transform: none; color: var(--tm); font-size: 14px;">오늘의 기록이
+          내일의 추억이 되는 공간입니다.<br>당신의 편안한 이야기를 남겨주세요.</p>
+      </div>
+    </section>
+
+    <section class="feat-sec">
+      <div class="sec-ttl">
+        <p>Discover</p>
+        <h2>Explore Categories</h2>
+      </div>
+      <div class="cb">
+        <div class="cbi" id="topCatStats">
+          <button class="cp active" onclick="filterCat('전체');setCat(this)">모든 순간 All</button>
+          <button class="cp" onclick="filterCat('일상');setCat(this)">나의 일상 Daily</button>
+          <button class="cp" onclick="filterCat('기술/IT');setCat(this)">연구와 기술 Tech</button>
+          <button class="cp" onclick="filterCat('여행');setCat(this)">먼 곳의 여행 Travel</button>
+          <button class="cp" onclick="filterCat('음식');setCat(this)">미식의 기록 Food</button>
+          <button class="cp" onclick="filterCat('기타');setCat(this)">그 외의 생각 Etc</button>
         </div>
       </div>
-      <p class="sub"
-        style="margin-top: 30px; letter-spacing: 0; text-transform: none; color: var(--tm); font-size: 14px;">오늘의 기록이
-        내일의 추억이 되는 공간입니다.<br>당신의 편안한 이야기를 남겨주세요.</p>
-    </div>
-  </section>
-
-  <section class="feat-sec">
-    <div class="sec-ttl">
-      <p>Discover</p>
-      <h2>Explore Categories</h2>
-    </div>
-    <div class="cb">
-      <div class="cbi" id="topCatStats">
-        <button class="cp active" onclick="filterCat('전체');setCat(this)">모든 순간 All</button>
-        <button class="cp" onclick="filterCat('일상');setCat(this)">나의 일상 Daily</button>
-        <button class="cp" onclick="filterCat('기술/IT');setCat(this)">연구와 기술 Tech</button>
-        <button class="cp" onclick="filterCat('여행');setCat(this)">먼 곳의 여행 Travel</button>
-        <button class="cp" onclick="filterCat('음식');setCat(this)">미식의 기록 Food</button>
-        <button class="cp" onclick="filterCat('기타');setCat(this)">그 외의 생각 Etc</button>
-      </div>
-    </div>
-  </section>
+    </section>
+  </div>
   <div id="mainView">
     <div class="pw">
       <main>
@@ -1475,7 +1477,25 @@
         const th = p.thumb || (p.blocks || []).find(b => b.type === 'image')?.data || '';
         const tH = th ? `<img src="${th}" alt="${x(p.title)}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="ctp" style="display:none">${e2}</div>` : `<div class="ctp">${e2}</div>`;
         const exc = (p.blocks || []).find(b => b.type === 'text')?.content || p.body || '';
-        h += `<div class="ac" onclick="openPost('${p.id}')"><div class="ct">${tH}</div><div class="cb2"><div class="cm"><span class="cc">${x(p.category)}</span><span class="cd">${date}</span><span class="cv">👁 ${p.views || 0}</span></div><div class="ctt">${x(p.title)}</div><div class="ce">${x(exc.replace(/\n/g, ' '))}</div><div class="ctgs">${tags}</div></div></div>`;
+
+        const adminTools = isAdmin ? `
+          <div class="alc-tools" style="position:absolute; top:12px; right:12px; z-index:10; display:flex; gap:6px;">
+            <button onclick="event.stopPropagation();cid='${p.id}';openEdit()" style="background:rgba(255,255,255,0.9); border:1px solid var(--border); padding:6px; border-radius:6px; cursor:pointer;"><i class="fa-solid fa-pen" style="font-size:12px; color:var(--tm);"></i></button>
+            <button onclick="event.stopPropagation();cid='${p.id}';confirmDel()" style="background:rgba(255,255,255,0.9); border:1px solid var(--border); padding:6px; border-radius:6px; cursor:pointer;"><i class="fa-solid fa-trash" style="font-size:12px; color:var(--dn);"></i></button>
+          </div>
+        ` : '';
+
+        h += `
+          <div class="ac" onclick="openPost('${p.id}')" style="position:relative;">
+            ${adminTools}
+            <div class="ct">${tH}</div>
+            <div class="cb2">
+              <div class="cm"><span class="cc">${x(p.category)}</span><span class="cd">${date}</span><span class="cv">👁 ${p.views || 0}</span></div>
+              <div class="ctt">${x(p.title)}</div>
+              <div class="ce">${x(exc.replace(/\n/g, ' '))}</div>
+              <div class="ctgs">${tags}</div>
+            </div>
+          </div>`;
       });
       if (isAdmin) h += '<div class="addc" onclick="openWrite()"><div class="addi">＋</div><span>새 글 쓰기</span></div>';
       g.innerHTML = h; rSB(ps);
