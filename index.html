@@ -10,6 +10,7 @@
   <meta property="og:title" content="나의 기록 블로그 | My Record Blog">
   <meta property="og:type" content="website">
   <title>나의 기록 블로그 | My Record Blog</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,900,300italic" rel="stylesheet">
   <link rel="stylesheet"
     href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
@@ -154,7 +155,8 @@
     .ls {
       font-size: 10px;
       color: var(--tm);
-      letter-spacing: 1px
+      letter-spacing: 1px;
+      font-weight: 500;
     }
 
     nav {
@@ -167,20 +169,20 @@
     .nl {
       background: none;
       border: none;
-      font-family: var(--fk);
-      font-size: 15px;
-      font-weight: 400;
-      font-style: italic;
+      font-size: 20px;
       color: var(--text);
-      padding: 8px 16px;
-      border-radius: 5px;
+      padding: 8px 12px;
       cursor: pointer;
       transition: .2s;
-      white-space: nowrap
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .nl:hover {
-      background: var(--al);
+      color: var(--ac);
+      transform: translateY(-2px);
     }
 
     .nl.active {
@@ -1198,15 +1200,16 @@
   <header>
     <div class="hi">
       <a href="javascript:location.reload()" class="logo" style="text-decoration:none;">
-        <span class="lm" style="color:#252122;font-size:2.5em;font-weight:900;letter-spacing:-0.035em;">記錄</span>
+        <span class="lm" style="color:#252122;font-size:24px;font-weight:900;">기록</span>
+        <span class="ls">RECORD 記錄</span>
       </a>
       <nav>
-        <button class="nl active" onclick="filterCat('전체');setNav(this)">전체</button>
-        <button class="nl" onclick="filterCat('일상');setNav(this)">일상</button>
-        <button class="nl" onclick="filterCat('기술/IT');setNav(this)">기술/IT</button>
-        <button class="nl" onclick="filterCat('여행');setNav(this)">여행</button>
-        <button class="nl" onclick="filterCat('음식');setNav(this)">음식</button>
-        <div style="display:flex; align-items:center; margin-left: 10px;">
+        <a href="https://instagram.com" target="_blank" class="nl" aria-label="Instagram"><i
+            class="fa-brands fa-instagram"></i></a>
+        <a href="https://threads.net" target="_blank" class="nl" aria-label="Threads"><i
+            class="fa-brands fa-threads"></i></a>
+
+        <div style="display:flex; align-items:center; margin-left:14px;">
           <img
             src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fyangj0828-droid.github.io%2Fblog&count_bg=%234F46E5&title_bg=%232C2C2C&icon=&icon_color=%23E7E7E7&title=Today+%2F+Total&edge_flat=true"
             alt="Hits" style="border-radius:4px; box-shadow:var(--ss); height: 20px;">
@@ -1218,365 +1221,365 @@
   </header>
   <div id="heroWrap">
     <div class="hero">
-      <h1 style="margin-bottom:12px; font-weight:800;">記錄 <span
-          style="font-weight:400; font-family:var(--fk); font-size:0.7em; letter-spacing:1px; color:#555;">Record</span>
-      </h1>
-      <p>오늘의 기록이 내일의 추억이 되는 공간입니다.<br>일상, 개발, 그리고 여행 이야기를 자유롭게 나눕니다.</p>
+      <div class="hero-box">
+        <h1 style="margin-bottom:0px; font-weight:700;">記錄</h1>
+        <p>Record</p>
+        <p class="sub">오늘의 기록이 내일의 추억이 되는 공간입니다.<br>일상, 개발, 그리고 여행 이야기를 자유롭게 나눕니다.</p>
 
-      <div style="margin-top:28px; display:flex; justify-content:center;">
-        <div style="position:relative; max-width:400px; width:100%;">
-          <input type="text" id="searchInput" placeholder="게시물 검색..." onkeyup="if(event.key==='Enter')doSearch()"
-            style="width:100%; padding:12px 20px; border-radius:30px; border:1px solid var(--border); box-shadow:var(--ss); font-family:var(--fk); font-size:15px; outline:none; transition:0.2s;">
-          <button onclick="doSearch()"
-            style="position:absolute; right:6px; top:6px; background:var(--ac); color:#fff; border:none; border-radius:24px; padding:6px 14px; font-weight:700; cursor:pointer;">검색</button>
-        </div>
-      </div>
-    </div>
-    <div class="cb">
-      <div class="cbi" id="topCatStats">
-        <button class="cp active" onclick="filterCat('전체');setCat(this)">전체 All</button>
-        <button class="cp" onclick="filterCat('일상');setCat(this)">일상 Daily</button>
-        <button class="cp" onclick="filterCat('기술/IT');setCat(this)">기술/IT Tech</button>
-        <button class="cp" onclick="filterCat('여행');setCat(this)">여행 Travel</button>
-        <button class="cp" onclick="filterCat('음식');setCat(this)">음식 Food</button>
-        <button class="cp" onclick="filterCat('기타');setCat(this)">기타 Etc</button>
-      </div>
-    </div>
-  </div>
-  <div id="mainView">
-    <div class="pw">
-      <main>
-        <div class="ag" id="ag">
-          <div class="ld">
-            <div class="sp"></div>불러오는 중...
+        <div style="margin-top:28px; display:flex; justify-content:center;">
+          <div style="position:relative; max-width:400px; width:100%;">
+            <input type="text" id="searchInput" placeholder="게시물 검색..." onkeyup="if(event.key==='Enter')doSearch()"
+              style="width:100%; padding:12px 20px; border-radius:30px; border:1px solid var(--border); box-shadow:var(--ss); font-family:var(--fk); font-size:15px; outline:none; transition:0.2s;">
+            <button onclick="doSearch()"
+              style="position:absolute; right:6px; top:6px; background:var(--ac); color:#fff; border:none; border-radius:24px; padding:6px 14px; font-weight:700; cursor:pointer;">검색</button>
           </div>
         </div>
-      </main>
-    </div>
-  </div>
-  <div id="dv">
-    <button class="dbk" onclick="goHome()">← 목록으로 돌아가기</button>
-    <div class="dcov" id="dcov"></div>
-    <div class="dcat" id="dcat"></div>
-    <div class="dtt" id="dtt"></div>
-    <div class="dmt" id="dmt"></div>
-    <div class="dbl" id="dbl"></div>
-    <div class="df">
-      <div class="dt" id="dtags"></div>
-      <div id="adb" style="display:none;gap:8px">
-        <button class="be" onclick="openEdit()">✏️ 수정</button>
-        <button class="bd" onclick="confirmDel()">🗑 삭제</button>
       </div>
-    </div>
-    <!-- Emoji Comments -->
-    <div style="margin-top:40px; border-top:1px solid var(--border); padding-top:24px;">
-      <h3 style="font-size:16px; margin-bottom:16px;">💬 댓글 <span id="ccmt" style="color:var(--ac)">0</span></h3>
-      <ul id="cmtList" style="list-style:none; padding:0; margin-bottom:20px; font-size:14px;"></ul>
-      <div style="display:flex; gap:8px;">
-        <select id="cmtEmoji"
-          style="padding:10px; border:1px solid var(--border); border-radius:8px; font-size:16px; background:var(--white); outline:none; cursor:pointer;">
-          <option value="😀">😀</option>
-          <option value="👍">👍</option>
-          <option value="❤️">❤️</option>
-          <option value="🙌">🙌</option>
-          <option value="🔥">🔥</option>
-          <option value="🤔">🤔</option>
-          <option value="😢">😢</option>
-        </select>
-        <input type="text" id="cmtInput" placeholder="댓글을 남겨보세요..."
-          style="flex:1; padding:10px 14px; border:1px solid var(--border); border-radius:8px; font-size:14px; outline:none; background:var(--bg);"
-          onkeydown="if(event.key==='Enter')addCmt()">
-        <button onclick="addCmt()"
-          style="padding:10px 18px; background:var(--ac); color:#fff; border:none; border-radius:8px; cursor:pointer; font-weight:700;">등록</button>
-      </div>
-    </div>
-  </div>
-  <footer>
-    <p>© 2025 기록 · Record 記錄</p>
-    <p style="margin-top:5px"><a href="#">Privacy Policy</a> · <a href="mailto:">Contact</a></p>
-  </footer>
-
-  <!-- LOGIN -->
-  <div class="ov" id="loginModal">
-    <div class="mo">
-      <h2>관리자 로그인</h2>
-      <p class="ms">Administrator Login</p>
-      <div class="eb" id="loginErr">아이디 또는 비밀번호가 틀렸습니다.</div>
-      <div class="fg"><label>아이디 ID</label><input type="text" id="inId" placeholder="admin"
-          onkeydown="if(event.key==='Enter')doLogin()"></div>
-      <div class="fg"><label>비밀번호 Password</label><input type="password" id="inPw" placeholder="••••••••"
-          onkeydown="if(event.key==='Enter')doLogin()"></div>
-      <button class="bp" onclick="doLogin()">로그인 Login</button>
-      <button class="bs" onclick="cm('loginModal')">취소</button>
-    </div>
-  </div>
-
-  <!-- WRITE/EDIT -->
-  <div class="ov" id="writeModal">
-    <div class="mo w">
-      <h2 id="wt">새 글 쓰기</h2>
-      <p class="ms" id="ws">Write New Post</p>
-      <div class="fr">
-        <div class="fg"><label>제목 Title</label><input type="text" id="inTitle" placeholder="글 제목을 입력하세요"></div>
-        <div class="fg"><label>카테고리</label><select id="inCat">
-            <option value="일상">일상 Daily</option>
-            <option value="기술/IT">기술/IT</option>
-            <option value="여행">여행 Travel</option>
-            <option value="음식">음식 Food</option>
-            <option value="기타">기타 Etc</option>
-          </select></div>
-      </div>
-      <div class="fg"><label>태그 <small style="font-weight:400">(쉼표 구분)</small></label><input type="text" id="inTags"
-          placeholder="일상, 커피, 취미"></div>
-      <div class="fg">
-        <label>대표 썸네일 <small style="font-weight:400">(선택 · 자동 압축)</small></label>
-        <div class="tz" onclick="document.getElementById('tf').click()">📷 클릭해서 썸네일 이미지 선택</div>
-        <input type="file" id="tf" accept="image/*" style="display:none" onchange="onThumb(event)">
-        <img class="tp" id="tp" alt="">
-      </div>
-      <div class="fg">
-        <label>내용 — 이미지와 글을 블록으로 자유롭게 조합</label>
-        <div class="ew">
-          <div class="et">
-            <button class="tb" onclick="addTxt()">📝 글 블록 추가</button>
-            <button class="tb" onclick="addImg()">🖼 이미지 블록 추가</button>
-          </div>
-          <div class="bw" id="bw"></div>
+      <div class="cb">
+        <div class="cbi" id="topCatStats">
+          <button class="cp active" onclick="filterCat('전체');setCat(this)">전체 All</button>
+          <button class="cp" onclick="filterCat('일상');setCat(this)">일상 Daily</button>
+          <button class="cp" onclick="filterCat('기술/IT');setCat(this)">기술/IT Tech</button>
+          <button class="cp" onclick="filterCat('여행');setCat(this)">여행 Travel</button>
+          <button class="cp" onclick="filterCat('음식');setCat(this)">음식 Food</button>
+          <button class="cp" onclick="filterCat('기타');setCat(this)">기타 Etc</button>
         </div>
       </div>
-      <button class="bp" id="saveBtn" onclick="savePost()">저장하기 Save</button>
-      <button class="bs" onclick="cm('writeModal')">취소</button>
     </div>
-  </div>
+    <div id="mainView">
+      <div class="pw">
+        <main>
+          <div class="ag" id="ag">
+            <div class="ld">
+              <div class="sp"></div>불러오는 중...
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+    <div id="dv">
+      <button class="dbk" onclick="goHome()">← 목록으로 돌아가기</button>
+      <div class="dcov" id="dcov"></div>
+      <div class="dcat" id="dcat"></div>
+      <div class="dtt" id="dtt"></div>
+      <div class="dmt" id="dmt"></div>
+      <div class="dbl" id="dbl"></div>
+      <div class="df">
+        <div class="dt" id="dtags"></div>
+        <div id="adb" style="display:none;gap:8px">
+          <button class="be" onclick="openEdit()">✏️ 수정</button>
+          <button class="bd" onclick="confirmDel()">🗑 삭제</button>
+        </div>
+      </div>
+      <!-- Emoji Comments -->
+      <div style="margin-top:40px; border-top:1px solid var(--border); padding-top:24px;">
+        <h3 style="font-size:16px; margin-bottom:16px;">💬 댓글 <span id="ccmt" style="color:var(--ac)">0</span></h3>
+        <ul id="cmtList" style="list-style:none; padding:0; margin-bottom:20px; font-size:14px;"></ul>
+        <div style="display:flex; gap:8px;">
+          <select id="cmtEmoji"
+            style="padding:10px; border:1px solid var(--border); border-radius:8px; font-size:16px; background:var(--white); outline:none; cursor:pointer;">
+            <option value="😀">😀</option>
+            <option value="👍">👍</option>
+            <option value="❤️">❤️</option>
+            <option value="🙌">🙌</option>
+            <option value="🔥">🔥</option>
+            <option value="🤔">🤔</option>
+            <option value="😢">😢</option>
+          </select>
+          <input type="text" id="cmtInput" placeholder="댓글을 남겨보세요..."
+            style="flex:1; padding:10px 14px; border:1px solid var(--border); border-radius:8px; font-size:14px; outline:none; background:var(--bg);"
+            onkeydown="if(event.key==='Enter')addCmt()">
+          <button onclick="addCmt()"
+            style="padding:10px 18px; background:var(--ac); color:#fff; border:none; border-radius:8px; cursor:pointer; font-weight:700;">등록</button>
+        </div>
+      </div>
+    </div>
+    <footer>
+      <p>© 2025 기록 · Record 記錄</p>
+      <p style="margin-top:5px"><a href="#">Privacy Policy</a> · <a href="mailto:">Contact</a></p>
+    </footer>
 
-  <div class="toast" id="toast"></div>
-  <script>
-    const AID = 'admin', APW = 'blog1234';
-    const CATS = ['일상', '기술/IT', '여행', '음식', '기타'];
-    const EM = { '일상': '🌿', '기술/IT': '💻', '여행': '✈️', '음식': '🍜', '기타': '📝' };
-    let isAdmin = false, fbOk = false, cf = '전체', cid = null, em = false;
-    let posts = [], blocks = [], tB64 = '', bid = 0;
+    <!-- LOGIN -->
+    <div class="ov" id="loginModal">
+      <div class="mo">
+        <h2>관리자 로그인</h2>
+        <p class="ms">Administrator Login</p>
+        <div class="eb" id="loginErr">아이디 또는 비밀번호가 틀렸습니다.</div>
+        <div class="fg"><label>아이디 ID</label><input type="text" id="inId" placeholder="admin"
+            onkeydown="if(event.key==='Enter')doLogin()"></div>
+        <div class="fg"><label>비밀번호 Password</label><input type="password" id="inPw" placeholder="••••••••"
+            onkeydown="if(event.key==='Enter')doLogin()"></div>
+        <button class="bp" onclick="doLogin()">로그인 Login</button>
+        <button class="bs" onclick="cm('loginModal')">취소</button>
+      </div>
+    </div>
 
-    async function fbAll() { try { const q = window._query(window._col(db(), 'posts'), window._orderBy('createdAt', 'desc')); const s = await window._getDocs(q); return s.docs.map(d => ({ id: d.id, ...d.data() })); } catch (e) { console.error(e); return []; } }
-    async function fbAdd(d) { return await window._addDoc(window._col(db(), 'posts'), { ...d, views: 0, createdAt: window._serverTimestamp() }); }
-    async function fbUpd(id, d) { await window._updateDoc(window._doc(db(), 'posts', id), d); }
-    async function fbDel(id) { await window._deleteDoc(window._doc(db(), 'posts', id)); }
-    async function fbV(id) { try { await window._updateDoc(window._doc(db(), 'posts', id), { views: window._increment(1) }); } catch (e) { } }
-    function rg(ps) {
-      const g = document.getElementById('ag');
-      const list = cf === '전체' ? ps : ps.filter(p => p.category === cf);
-      let h = '';
-      if (!list.length && !isAdmin) h = '<div class="empty"><div class="ei">📭</div><p>아직 글이 없습니다.</p></div>';
-      list.forEach(p => {
-        const e2 = EM[p.category] || '📝', date = p.createdAt?.toDate ? p.createdAt.toDate().toLocaleDateString('ko-KR') : '';
-        const tags = (p.tags || []).slice(0, 3).map(t => `<span class="ctg">#${x(t)}</span>`).join('');
-        const th = p.thumb || (p.blocks || []).find(b => b.type === 'image')?.data || '';
-        const tH = th ? `<img src="${th}" alt="${x(p.title)}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="ctp" style="display:none">${e2}</div>` : `<div class="ctp">${e2}</div>`;
-        const exc = (p.blocks || []).find(b => b.type === 'text')?.content || p.body || '';
-        h += `<div class="ac" onclick="openPost('${p.id}')"><div class="ct">${tH}</div><div class="cb2"><div class="cm"><span class="cc">${x(p.category)}</span><span class="cd">${date}</span><span class="cv">👁 ${p.views || 0}</span></div><div class="ctt">${x(p.title)}</div><div class="ce">${x(exc.replace(/\n/g, ' '))}</div><div class="ctgs">${tags}</div></div></div>`;
-      });
-      if (isAdmin) h += '<div class="addc" onclick="openWrite()"><div class="addi">＋</div><span>새 글 쓰기</span></div>';
-      g.innerHTML = h; rSB(ps);
-    }
-    function rSB(ps) {
-      const topStats = document.getElementById('topCatStats');
-      if (topStats) {
-        let allHtml = `<button class="cp ${cf === '전체' ? 'active' : ''}" onclick="filterCat('전체');setCat(this)">전체 All <span style="background:var(--tb);font-size:10px;padding:2px 6px;border-radius:10px;margin-left:4px;">${ps.length}</span></button>`;
-        const catsHtml = CATS.map(c => {
-          const count = ps.filter(p => p.category === c).length;
-          const eNames = { '일상': 'Daily', '기술/IT': 'Tech', '여행': 'Travel', '음식': 'Food', '기타': 'Etc' };
-          return `<button class="cp ${cf === c ? 'active' : ''}" onclick="filterCat('${c}');setCat(this)">${c} ${eNames[c] || ''} <span style="background:var(--tb);font-size:10px;padding:2px 6px;border-radius:10px;margin-left:4px;">${count}</span></button>`;
-        }).join('');
-        topStats.innerHTML = allHtml + catsHtml;
-      }
-    }
-    function goHome() { cid = null; document.getElementById('mainView').style.display = ''; document.getElementById('heroWrap').style.display = ''; document.getElementById('dv').classList.remove('on'); rg(posts); window.scrollTo(0, 0); }
-    function filterCat(c) { cf = c; if (document.getElementById('mainView').style.display === 'none') goHome(); else rg(posts); }
-    function doSearch() {
-      const kw = document.getElementById('searchInput').value.trim().toLowerCase();
-      cf = '전체';
-      document.querySelectorAll('.cp').forEach(b => b.classList.remove('active'));
-      document.querySelector('.cp').classList.add('active'); // 전체 버튼 활성화
-      if (!kw) { rg(posts); return; }
-      const res = posts.filter(p => p.title.toLowerCase().includes(kw) || (p.tags || []).some(t => t.toLowerCase().includes(kw)) || (p.body || '').toLowerCase().includes(kw));
-      rg(res);
-      if (!res.length) { document.getElementById('ag').innerHTML = '<div class="empty"><div class="ei">🔍</div><p>검색 결과가 없습니다.</p></div>'; }
-    }
-    function setNav(el) { document.querySelectorAll('.nl:not(.na)').forEach(b => b.classList.remove('active')); el.classList.add('active'); }
-    function setCat(el) { document.querySelectorAll('.cp').forEach(b => b.classList.remove('active')); el.classList.add('active'); }
-    async function openPost(id) {
-      const p = posts.find(q => q.id === id); if (!p) return; cid = id;
-      const e2 = EM[p.category] || '📝', cov = document.getElementById('dcov');
-      const th = p.thumb || (p.blocks || []).find(b => b.type === 'image')?.data || '';
-      if (th) { cov.innerHTML = `<img src="${th}" alt="${x(p.title)}">`; cov.style.fontSize = ''; }
-      else { cov.textContent = e2; cov.style.fontSize = '60px'; }
-      const date = p.createdAt?.toDate ? p.createdAt.toDate().toLocaleDateString('ko-KR') : '';
-      document.getElementById('dcat').textContent = p.category;
-      document.getElementById('dtt').textContent = p.title;
-      document.getElementById('dmt').innerHTML = `<span>${date}</span><span>👁 ${(p.views || 0) + 1}</span>`;
-      const pb = p.blocks || (p.body ? [{ type: 'text', content: p.body }] : []);
-      document.getElementById('dbl').innerHTML = pb.map(b => b.type === 'image' ? `<div class="bim"><img src="${b.data}" alt="${x(b.caption || '')}"><${b.caption ? `div class="bcp">${x(b.caption)}</div` : 'div style="display:none"></div'}></div>` : `<div class="btx">${x(b.content)}</div>`).join('');
-      document.getElementById('dtags').innerHTML = (p.tags || []).map(t => `<span class="dtg">#${x(t)}</span>`).join('');
-      const ab = document.getElementById('adb'); ab.style.display = isAdmin ? 'flex' : 'none';
-      document.getElementById('heroWrap').style.display = 'none'; document.getElementById('mainView').style.display = 'none';
-      document.getElementById('dv').classList.add('on'); window.scrollTo(0, 0);
-      fbV(id); p.views = (p.views || 0) + 1;
-      loadCmt(id);
-    }
-    async function loadCmt(pid) {
-      const cl = document.getElementById('cmtList'); cl.innerHTML = '<li style="color:var(--tl);font-size:13px">댓글을 불러오는 중...</li>';
-      try {
-        const q = window._query(window._col(db(), 'comments'), window._orderBy('createdAt', 'asc'));
-        const s = await window._getDocs(q);
-        const cmts = s.docs.map(d => d.data()).filter(c => c.postId === pid);
-        document.getElementById('ccmt').textContent = cmts.length;
-        if (!cmts.length) { cl.innerHTML = '<li style="color:var(--tl);font-size:13px">첫 댓글을 남겨보세요!</li>'; return; }
-        cl.innerHTML = cmts.map(c => `<li style="padding:10px 0; border-bottom:1px solid var(--border); display:flex; gap:12px; align-items:center;"><span style="font-size:20px">${c.emoji}</span><span style="color:var(--text)">${x(c.text)}</span> <span style="font-size:11px;color:var(--tl);margin-left:auto;">${c.createdAt?.toDate ? c.createdAt.toDate().toLocaleDateString('ko-KR') : ''}</span></li>`).join('');
-      } catch (e) { cl.innerHTML = '<li style="color:var(--dn);font-size:13px">댓글을 불러오지 못했습니다.</li>'; }
-    }
-    async function addCmt() {
-      const t = document.getElementById('cmtInput').value.trim(), e = document.getElementById('cmtEmoji').value;
-      if (!t) return toast('댓글 내용을 입력해주세요', 'err');
+    <!-- WRITE/EDIT -->
+    <div class="ov" id="writeModal">
+      <div class="mo w">
+        <h2 id="wt">새 글 쓰기</h2>
+        <p class="ms" id="ws">Write New Post</p>
+        <div class="fr">
+          <div class="fg"><label>제목 Title</label><input type="text" id="inTitle" placeholder="글 제목을 입력하세요"></div>
+          <div class="fg"><label>카테고리</label><select id="inCat">
+              <option value="일상">일상 Daily</option>
+              <option value="기술/IT">기술/IT</option>
+              <option value="여행">여행 Travel</option>
+              <option value="음식">음식 Food</option>
+              <option value="기타">기타 Etc</option>
+            </select></div>
+        </div>
+        <div class="fg"><label>태그 <small style="font-weight:400">(쉼표 구분)</small></label><input type="text" id="inTags"
+            placeholder="일상, 커피, 취미"></div>
+        <div class="fg">
+          <label>대표 썸네일 <small style="font-weight:400">(선택 · 자동 압축)</small></label>
+          <div class="tz" onclick="document.getElementById('tf').click()">📷 클릭해서 썸네일 이미지 선택</div>
+          <input type="file" id="tf" accept="image/*" style="display:none" onchange="onThumb(event)">
+          <img class="tp" id="tp" alt="">
+        </div>
+        <div class="fg">
+          <label>내용 — 이미지와 글을 블록으로 자유롭게 조합</label>
+          <div class="ew">
+            <div class="et">
+              <button class="tb" onclick="addTxt()">📝 글 블록 추가</button>
+              <button class="tb" onclick="addImg()">🖼 이미지 블록 추가</button>
+            </div>
+            <div class="bw" id="bw"></div>
+          </div>
+        </div>
+        <button class="bp" id="saveBtn" onclick="savePost()">저장하기 Save</button>
+        <button class="bs" onclick="cm('writeModal')">취소</button>
+      </div>
+    </div>
 
-      document.getElementById('cmtInput').disabled = true;
-      try {
-        await window._addDoc(window._col(db(), 'comments'), {
-          postId: cid,
-          text: t,
-          emoji: e,
-          createdAt: window._serverTimestamp()
+    <div class="toast" id="toast"></div>
+    <script>
+      const AID = 'admin', APW = 'blog1234';
+      const CATS = ['일상', '기술/IT', '여행', '음식', '기타'];
+      const EM = { '일상': '🌿', '기술/IT': '💻', '여행': '✈️', '음식': '🍜', '기타': '📝' };
+      let isAdmin = false, fbOk = false, cf = '전체', cid = null, em = false;
+      let posts = [], blocks = [], tB64 = '', bid = 0;
+
+      async function fbAll() { try { const q = window._query(window._col(db(), 'posts'), window._orderBy('createdAt', 'desc')); const s = await window._getDocs(q); return s.docs.map(d => ({ id: d.id, ...d.data() })); } catch (e) { console.error(e); return []; } }
+      async function fbAdd(d) { return await window._addDoc(window._col(db(), 'posts'), { ...d, views: 0, createdAt: window._serverTimestamp() }); }
+      async function fbUpd(id, d) { await window._updateDoc(window._doc(db(), 'posts', id), d); }
+      async function fbDel(id) { await window._deleteDoc(window._doc(db(), 'posts', id)); }
+      async function fbV(id) { try { await window._updateDoc(window._doc(db(), 'posts', id), { views: window._increment(1) }); } catch (e) { } }
+      function rg(ps) {
+        const g = document.getElementById('ag');
+        const list = cf === '전체' ? ps : ps.filter(p => p.category === cf);
+        let h = '';
+        if (!list.length && !isAdmin) h = '<div class="empty"><div class="ei">📭</div><p>아직 글이 없습니다.</p></div>';
+        list.forEach(p => {
+          const e2 = EM[p.category] || '📝', date = p.createdAt?.toDate ? p.createdAt.toDate().toLocaleDateString('ko-KR') : '';
+          const tags = (p.tags || []).slice(0, 3).map(t => `<span class="ctg">#${x(t)}</span>`).join('');
+          const th = p.thumb || (p.blocks || []).find(b => b.type === 'image')?.data || '';
+          const tH = th ? `<img src="${th}" alt="${x(p.title)}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="ctp" style="display:none">${e2}</div>` : `<div class="ctp">${e2}</div>`;
+          const exc = (p.blocks || []).find(b => b.type === 'text')?.content || p.body || '';
+          h += `<div class="ac" onclick="openPost('${p.id}')"><div class="ct">${tH}</div><div class="cb2"><div class="cm"><span class="cc">${x(p.category)}</span><span class="cd">${date}</span><span class="cv">👁 ${p.views || 0}</span></div><div class="ctt">${x(p.title)}</div><div class="ce">${x(exc.replace(/\n/g, ' '))}</div><div class="ctgs">${tags}</div></div></div>`;
         });
-        document.getElementById('cmtInput').value = '';
-        await loadCmt(cid);
-        toast('댓글이 등록되었습니다', 'ok');
-      } catch (err) {
-        console.error("댓글 등록 에러:", err);
-        if (err.message && err.message.includes('permission')) {
-          toast('권한 에러: Firebase 콘솔에서 Firestore Rules를 누구나 쓰기 가능하도록 빈 규칙(allow read, write: if true;)으로 개방해주셔야 합니다.', 'err');
-        } else {
-          toast('댓글 등록에 실패했습니다.', 'err');
+        if (isAdmin) h += '<div class="addc" onclick="openWrite()"><div class="addi">＋</div><span>새 글 쓰기</span></div>';
+        g.innerHTML = h; rSB(ps);
+      }
+      function rSB(ps) {
+        const topStats = document.getElementById('topCatStats');
+        if (topStats) {
+          let allHtml = `<button class="cp ${cf === '전체' ? 'active' : ''}" onclick="filterCat('전체');setCat(this)">전체 All <span style="background:var(--tb);font-size:10px;padding:2px 6px;border-radius:10px;margin-left:4px;">${ps.length}</span></button>`;
+          const catsHtml = CATS.map(c => {
+            const count = ps.filter(p => p.category === c).length;
+            const eNames = { '일상': 'Daily', '기술/IT': 'Tech', '여행': 'Travel', '음식': 'Food', '기타': 'Etc' };
+            return `<button class="cp ${cf === c ? 'active' : ''}" onclick="filterCat('${c}');setCat(this)">${c} ${eNames[c] || ''} <span style="background:var(--tb);font-size:10px;padding:2px 6px;border-radius:10px;margin-left:4px;">${count}</span></button>`;
+          }).join('');
+          topStats.innerHTML = allHtml + catsHtml;
         }
       }
-      finally { document.getElementById('cmtInput').disabled = false; }
-    }
-    function adminToggle() { isAdmin ? logout() : om('loginModal'); }
-    function doLogin() {
-      const id = document.getElementById('inId').value.trim(), pw = document.getElementById('inPw').value;
-      if (id === AID && pw === APW) { isAdmin = true; cm('loginModal'); document.getElementById('adminBar').classList.add('on'); document.getElementById('adminBtn').textContent = '●'; document.getElementById('adminBtn').style.color = 'var(--ac)'; toast('관리자 로그인 완료 ✓', 'ok'); rg(posts); }
-      else { document.getElementById('loginErr').classList.add('on'); document.getElementById('inPw').value = ''; }
-    }
-    function logout() { isAdmin = false; document.getElementById('adminBar').classList.remove('on'); document.getElementById('adminBtn').textContent = '●'; document.getElementById('adminBtn').style.color = 'transparent'; document.getElementById('adb').style.display = 'none'; toast('로그아웃', ''); rg(posts); }
-    function addTxt(c = '') { const id = bid++; blocks.push({ _id: id, type: 'text', content: c }); rBlocks(); setTimeout(() => { const ta = document.querySelector(`[data-bid="${id}"] textarea`); if (ta) ta.focus(); }, 50); }
-    function addImg(d = '', cap = '') { const id = bid++; blocks.push({ _id: id, type: 'image', data: d, caption: cap }); rBlocks(); }
-    function rmBlock(id) { blocks = blocks.filter(b => b._id !== id); rBlocks(); }
-    function mvBlock(id, dir) { const i = blocks.findIndex(b => b._id === id); if (dir === -1 && i > 0) [blocks[i], blocks[i - 1]] = [blocks[i - 1], blocks[i]]; if (dir === 1 && i < blocks.length - 1) [blocks[i], blocks[i + 1]] = [blocks[i + 1], blocks[i]]; rBlocks(); }
-    function rBlocks() {
-      const w = document.getElementById('bw'); w.innerHTML = '';
-      if (!blocks.length) { w.innerHTML = '<div style="text-align:center;padding:24px;color:var(--tl);font-size:13px">위 버튼으로 글이나 이미지 블록을 추가하세요</div>'; return; }
-      blocks.forEach(b => {
-        const d = document.createElement('div'); d.className = 'bi'; d.setAttribute('data-bid', b._id);
-        const acts = `<div class="bas"><button class="bab" onclick="mvBlock(${b._id},-1)">↑</button><button class="bab" onclick="mvBlock(${b._id},1)">↓</button><button class="bab dl" onclick="rmBlock(${b._id})">✕</button></div>`;
-        if (b.type === 'text') {
-          d.innerHTML = `<div class="bh"><span class="bl">📝 텍스트 블록</span>${acts}</div><div class="tin"><textarea class="ta" placeholder="내용을 입력하세요..." oninput="uTx(${b._id},this.value);aH(this)" rows="4">${x(b.content)}</textarea></div>`;
-        } else {
-          d.innerHTML = `<div class="bh"><span class="bl">🖼 이미지 블록</span>${acts}</div><div class="iin"><div class="uz ${b.data ? 'f' : ''}" onclick="document.getElementById('if_${b._id}').click()">${b.data ? `<img src="${b.data}" alt="">` : '<div class="uzi">📷</div><div class="uzt">클릭해서 이미지 업로드 (자동 압축)</div>'}</div><input type="file" accept="image/*" id="if_${b._id}" style="display:none" onchange="onImg(${b._id},event)"><input class="ci" type="text" placeholder="📝 사진 설명 입력 (선택)" value="${x(b.caption || '')}" oninput="uCp(${b._id},this.value)"></div>`;
+      function goHome() { cid = null; document.getElementById('mainView').style.display = ''; document.getElementById('heroWrap').style.display = ''; document.getElementById('dv').classList.remove('on'); rg(posts); window.scrollTo(0, 0); }
+      function filterCat(c) { cf = c; if (document.getElementById('mainView').style.display === 'none') goHome(); else rg(posts); }
+      function doSearch() {
+        const kw = document.getElementById('searchInput').value.trim().toLowerCase();
+        cf = '전체';
+        document.querySelectorAll('.cp').forEach(b => b.classList.remove('active'));
+        document.querySelector('.cp').classList.add('active'); // 전체 버튼 활성화
+        if (!kw) { rg(posts); return; }
+        const res = posts.filter(p => p.title.toLowerCase().includes(kw) || (p.tags || []).some(t => t.toLowerCase().includes(kw)) || (p.body || '').toLowerCase().includes(kw));
+        rg(res);
+        if (!res.length) { document.getElementById('ag').innerHTML = '<div class="empty"><div class="ei">🔍</div><p>검색 결과가 없습니다.</p></div>'; }
+      }
+      function setNav(el) { document.querySelectorAll('.nl:not(.na)').forEach(b => b.classList.remove('active')); el.classList.add('active'); }
+      function setCat(el) { document.querySelectorAll('.cp').forEach(b => b.classList.remove('active')); el.classList.add('active'); }
+      async function openPost(id) {
+        const p = posts.find(q => q.id === id); if (!p) return; cid = id;
+        const e2 = EM[p.category] || '📝', cov = document.getElementById('dcov');
+        const th = p.thumb || (p.blocks || []).find(b => b.type === 'image')?.data || '';
+        if (th) { cov.innerHTML = `<img src="${th}" alt="${x(p.title)}">`; cov.style.fontSize = ''; }
+        else { cov.textContent = e2; cov.style.fontSize = '60px'; }
+        const date = p.createdAt?.toDate ? p.createdAt.toDate().toLocaleDateString('ko-KR') : '';
+        document.getElementById('dcat').textContent = p.category;
+        document.getElementById('dtt').textContent = p.title;
+        document.getElementById('dmt').innerHTML = `<span>${date}</span><span>👁 ${(p.views || 0) + 1}</span>`;
+        const pb = p.blocks || (p.body ? [{ type: 'text', content: p.body }] : []);
+        document.getElementById('dbl').innerHTML = pb.map(b => b.type === 'image' ? `<div class="bim"><img src="${b.data}" alt="${x(b.caption || '')}"><${b.caption ? `div class="bcp">${x(b.caption)}</div` : 'div style="display:none"></div'}></div>` : `<div class="btx">${x(b.content)}</div>`).join('');
+        document.getElementById('dtags').innerHTML = (p.tags || []).map(t => `<span class="dtg">#${x(t)}</span>`).join('');
+        const ab = document.getElementById('adb'); ab.style.display = isAdmin ? 'flex' : 'none';
+        document.getElementById('heroWrap').style.display = 'none'; document.getElementById('mainView').style.display = 'none';
+        document.getElementById('dv').classList.add('on'); window.scrollTo(0, 0);
+        fbV(id); p.views = (p.views || 0) + 1;
+        loadCmt(id);
+      }
+      async function loadCmt(pid) {
+        const cl = document.getElementById('cmtList'); cl.innerHTML = '<li style="color:var(--tl);font-size:13px">댓글을 불러오는 중...</li>';
+        try {
+          const q = window._query(window._col(db(), 'comments'), window._orderBy('createdAt', 'asc'));
+          const s = await window._getDocs(q);
+          const cmts = s.docs.map(d => d.data()).filter(c => c.postId === pid);
+          document.getElementById('ccmt').textContent = cmts.length;
+          if (!cmts.length) { cl.innerHTML = '<li style="color:var(--tl);font-size:13px">첫 댓글을 남겨보세요!</li>'; return; }
+          cl.innerHTML = cmts.map(c => `<li style="padding:10px 0; border-bottom:1px solid var(--border); display:flex; gap:12px; align-items:center;"><span style="font-size:20px">${c.emoji}</span><span style="color:var(--text)">${x(c.text)}</span> <span style="font-size:11px;color:var(--tl);margin-left:auto;">${c.createdAt?.toDate ? c.createdAt.toDate().toLocaleDateString('ko-KR') : ''}</span></li>`).join('');
+        } catch (e) { cl.innerHTML = '<li style="color:var(--dn);font-size:13px">댓글을 불러오지 못했습니다.</li>'; }
+      }
+      async function addCmt() {
+        const t = document.getElementById('cmtInput').value.trim(), e = document.getElementById('cmtEmoji').value;
+        if (!t) return toast('댓글 내용을 입력해주세요', 'err');
+
+        document.getElementById('cmtInput').disabled = true;
+        try {
+          await window._addDoc(window._col(db(), 'comments'), {
+            postId: cid,
+            text: t,
+            emoji: e,
+            createdAt: window._serverTimestamp()
+          });
+          document.getElementById('cmtInput').value = '';
+          await loadCmt(cid);
+          toast('댓글이 등록되었습니다', 'ok');
+        } catch (err) {
+          console.error("댓글 등록 에러:", err);
+          if (err.message && err.message.includes('permission')) {
+            toast('권한 에러: Firebase 콘솔에서 Firestore Rules를 누구나 쓰기 가능하도록 빈 규칙(allow read, write: if true;)으로 개방해주셔야 합니다.', 'err');
+          } else {
+            toast('댓글 등록에 실패했습니다.', 'err');
+          }
         }
-        w.appendChild(d);
-        if (b.type === 'text') { const ta = d.querySelector('textarea'); if (ta) { ta.style.height = 'auto'; ta.style.height = ta.scrollHeight + 'px'; } }
-      });
-    }
-    function uTx(id, v) { const b = blocks.find(q => q._id === id); if (b) b.content = v; }
-    function uCp(id, v) { const b = blocks.find(q => q._id === id); if (b) b.caption = v; }
-    function aH(ta) { ta.style.height = 'auto'; ta.style.height = ta.scrollHeight + 'px'; }
-    function compressImg(file, maxW, quality, cb) {
-      const r = new FileReader();
-      r.onload = ev => {
-        const img = new Image();
-        img.onload = () => {
-          let w = img.width, h = img.height;
-          if (w > maxW) { h = Math.round(h * maxW / w); w = maxW; }
-          const c = document.createElement('canvas'); c.width = w; c.height = h;
-          c.getContext('2d').drawImage(img, 0, 0, w, h);
-          cb(c.toDataURL('image/jpeg', quality));
+        finally { document.getElementById('cmtInput').disabled = false; }
+      }
+      function adminToggle() { isAdmin ? logout() : om('loginModal'); }
+      function doLogin() {
+        const id = document.getElementById('inId').value.trim(), pw = document.getElementById('inPw').value;
+        if (id === AID && pw === APW) { isAdmin = true; cm('loginModal'); document.getElementById('adminBar').classList.add('on'); document.getElementById('adminBtn').textContent = '●'; document.getElementById('adminBtn').style.color = 'var(--ac)'; toast('관리자 로그인 완료 ✓', 'ok'); rg(posts); }
+        else { document.getElementById('loginErr').classList.add('on'); document.getElementById('inPw').value = ''; }
+      }
+      function logout() { isAdmin = false; document.getElementById('adminBar').classList.remove('on'); document.getElementById('adminBtn').textContent = '●'; document.getElementById('adminBtn').style.color = 'transparent'; document.getElementById('adb').style.display = 'none'; toast('로그아웃', ''); rg(posts); }
+      function addTxt(c = '') { const id = bid++; blocks.push({ _id: id, type: 'text', content: c }); rBlocks(); setTimeout(() => { const ta = document.querySelector(`[data-bid="${id}"] textarea`); if (ta) ta.focus(); }, 50); }
+      function addImg(d = '', cap = '') { const id = bid++; blocks.push({ _id: id, type: 'image', data: d, caption: cap }); rBlocks(); }
+      function rmBlock(id) { blocks = blocks.filter(b => b._id !== id); rBlocks(); }
+      function mvBlock(id, dir) { const i = blocks.findIndex(b => b._id === id); if (dir === -1 && i > 0) [blocks[i], blocks[i - 1]] = [blocks[i - 1], blocks[i]]; if (dir === 1 && i < blocks.length - 1) [blocks[i], blocks[i + 1]] = [blocks[i + 1], blocks[i]]; rBlocks(); }
+      function rBlocks() {
+        const w = document.getElementById('bw'); w.innerHTML = '';
+        if (!blocks.length) { w.innerHTML = '<div style="text-align:center;padding:24px;color:var(--tl);font-size:13px">위 버튼으로 글이나 이미지 블록을 추가하세요</div>'; return; }
+        blocks.forEach(b => {
+          const d = document.createElement('div'); d.className = 'bi'; d.setAttribute('data-bid', b._id);
+          const acts = `<div class="bas"><button class="bab" onclick="mvBlock(${b._id},-1)">↑</button><button class="bab" onclick="mvBlock(${b._id},1)">↓</button><button class="bab dl" onclick="rmBlock(${b._id})">✕</button></div>`;
+          if (b.type === 'text') {
+            d.innerHTML = `<div class="bh"><span class="bl">📝 텍스트 블록</span>${acts}</div><div class="tin"><textarea class="ta" placeholder="내용을 입력하세요..." oninput="uTx(${b._id},this.value);aH(this)" rows="4">${x(b.content)}</textarea></div>`;
+          } else {
+            d.innerHTML = `<div class="bh"><span class="bl">🖼 이미지 블록</span>${acts}</div><div class="iin"><div class="uz ${b.data ? 'f' : ''}" onclick="document.getElementById('if_${b._id}').click()">${b.data ? `<img src="${b.data}" alt="">` : '<div class="uzi">📷</div><div class="uzt">클릭해서 이미지 업로드 (자동 압축)</div>'}</div><input type="file" accept="image/*" id="if_${b._id}" style="display:none" onchange="onImg(${b._id},event)"><input class="ci" type="text" placeholder="📝 사진 설명 입력 (선택)" value="${x(b.caption || '')}" oninput="uCp(${b._id},this.value)"></div>`;
+          }
+          w.appendChild(d);
+          if (b.type === 'text') { const ta = d.querySelector('textarea'); if (ta) { ta.style.height = 'auto'; ta.style.height = ta.scrollHeight + 'px'; } }
+        });
+      }
+      function uTx(id, v) { const b = blocks.find(q => q._id === id); if (b) b.content = v; }
+      function uCp(id, v) { const b = blocks.find(q => q._id === id); if (b) b.caption = v; }
+      function aH(ta) { ta.style.height = 'auto'; ta.style.height = ta.scrollHeight + 'px'; }
+      function compressImg(file, maxW, quality, cb) {
+        const r = new FileReader();
+        r.onload = ev => {
+          const img = new Image();
+          img.onload = () => {
+            let w = img.width, h = img.height;
+            if (w > maxW) { h = Math.round(h * maxW / w); w = maxW; }
+            const c = document.createElement('canvas'); c.width = w; c.height = h;
+            c.getContext('2d').drawImage(img, 0, 0, w, h);
+            cb(c.toDataURL('image/jpeg', quality));
+          };
+          img.src = ev.target.result;
         };
-        img.src = ev.target.result;
-      };
-      r.readAsDataURL(file);
-    }
-    function onImg(id, e) {
-      const f = e.target.files[0]; if (!f) return;
-      toast('이미지 압축 중...', '');
-      compressImg(f, 1200, 0.75, data => {
-        const b = blocks.find(q => q._id === id); if (b) { b.data = data; rBlocks(); toast('이미지 추가됨 ✓', 'ok'); }
-      });
-    }
-    function onThumb(e) {
-      const f = e.target.files[0]; if (!f) return;
-      toast('썸네일 압축 중...', '');
-      compressImg(f, 800, 0.75, data => {
-        tB64 = data; const p = document.getElementById('tp'); p.src = tB64; p.classList.add('on'); toast('썸네일 추가됨 ✓', 'ok');
-      });
-    }
-    function openWrite() {
-      em = false; blocks = []; tB64 = ''; bid = 0;
-      document.getElementById('wt').textContent = '새 글 쓰기';
-      document.getElementById('ws').textContent = 'Write New Post';
-      document.getElementById('inTitle').value = '';
-      document.getElementById('inCat').value = '일상';
-      document.getElementById('inTags').value = '';
-      document.getElementById('tp').classList.remove('on');
-      document.getElementById('tf').value = '';
-      rBlocks(); addTxt(); om('writeModal');
-    }
-    function openEdit() {
-      const p = posts.find(q => q.id === cid); if (!p) return;
-      em = true; bid = 0; tB64 = p.thumb || '';
-      blocks = (p.blocks || (p.body ? [{ type: 'text', content: p.body }] : [])).map(b => ({ ...b, _id: bid++ }));
-      document.getElementById('wt').textContent = '글 수정하기';
-      document.getElementById('ws').textContent = 'Edit Post';
-      document.getElementById('inTitle').value = p.title;
-      document.getElementById('inCat').value = p.category;
-      document.getElementById('inTags').value = (p.tags || []).join(', ');
-      const prev = document.getElementById('tp');
-      if (tB64) { prev.src = tB64; prev.classList.add('on'); } else prev.classList.remove('on');
-      rBlocks(); om('writeModal');
-    }
-    async function savePost() {
-      if (!fbOk) { toast('Firebase 연결 필요', 'err'); return; }
-      const title = document.getElementById('inTitle').value.trim(), cat = document.getElementById('inCat').value;
-      const tags = document.getElementById('inTags').value.split(',').map(t => t.trim()).filter(Boolean);
-      if (!title) { toast('제목을 입력해주세요', 'err'); return; }
-      blocks.forEach(b => {
-        if (b.type === 'text') { const ta = document.querySelector(`[data-bid="${b._id}"] textarea`); if (ta) b.content = ta.value; }
-        if (b.type === 'image') { const ci = document.querySelector(`[data-bid="${b._id}"] .ci`); if (ci) b.caption = ci.value; }
-      });
-      if (!blocks.length) { toast('내용을 최소 하나 추가해주세요', 'err'); return; }
-      const cb = blocks.map(({ _id, ...r }) => r);
-      const btn = document.getElementById('saveBtn'); btn.disabled = true; btn.textContent = '저장 중...';
-      try {
-        const data = { title, category: cat, tags, blocks: cb, thumb: tB64 };
-        if (em) { await fbUpd(cid, data); toast('수정 완료 ✓', 'ok'); }
-        else { await fbAdd(data); toast('등록 완료 ✓', 'ok'); }
-        cm('writeModal'); await load(); if (em) openPost(cid);
-      } catch (e) { toast('저장 실패: ' + e.message, 'err'); }
-      finally { btn.disabled = false; btn.textContent = '저장하기 Save'; }
-    }
-    async function confirmDel() {
-      if (!confirm('정말 삭제하시겠습니까?')) return;
-      try { await fbDel(cid); toast('삭제되었습니다', ''); await load(); goHome(); }
-      catch (e) { toast('삭제 실패', 'err'); }
-    }
-    async function load() { document.getElementById('ag').innerHTML = '<div class="ld"><div class="sp"></div>불러오는 중...</div>'; posts = await fbAll(); rg(posts); }
-    function om(id) { document.getElementById(id).classList.add('on'); }
-    function cm(id) { document.getElementById(id).classList.remove('on'); }
-    document.querySelectorAll('.ov').forEach(el => el.addEventListener('click', e => { if (e.target === el) cm(el.id); }));
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') document.querySelectorAll('.ov.on').forEach(el => cm(el.id)); });
-    let _tt;
-    function toast(msg, type) { const el = document.getElementById('toast'); el.textContent = msg; el.className = `toast on ${type}`; clearTimeout(_tt); _tt = setTimeout(() => el.classList.remove('on'), 3000); }
-    function x(s) { return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
-    document.addEventListener('firebaseReady', () => { fbOk = true; load(); });
-    setTimeout(() => { if (!fbOk) document.getElementById('ag').innerHTML = '<div class="empty"><div class="ei">⚠️</div><p>Firebase 연결 실패. 새로고침 해주세요.</p></div>'; }, 6000);
-  </script>
+        r.readAsDataURL(file);
+      }
+      function onImg(id, e) {
+        const f = e.target.files[0]; if (!f) return;
+        toast('이미지 압축 중...', '');
+        compressImg(f, 1200, 0.75, data => {
+          const b = blocks.find(q => q._id === id); if (b) { b.data = data; rBlocks(); toast('이미지 추가됨 ✓', 'ok'); }
+        });
+      }
+      function onThumb(e) {
+        const f = e.target.files[0]; if (!f) return;
+        toast('썸네일 압축 중...', '');
+        compressImg(f, 800, 0.75, data => {
+          tB64 = data; const p = document.getElementById('tp'); p.src = tB64; p.classList.add('on'); toast('썸네일 추가됨 ✓', 'ok');
+        });
+      }
+      function openWrite() {
+        em = false; blocks = []; tB64 = ''; bid = 0;
+        document.getElementById('wt').textContent = '새 글 쓰기';
+        document.getElementById('ws').textContent = 'Write New Post';
+        document.getElementById('inTitle').value = '';
+        document.getElementById('inCat').value = '일상';
+        document.getElementById('inTags').value = '';
+        document.getElementById('tp').classList.remove('on');
+        document.getElementById('tf').value = '';
+        rBlocks(); addTxt(); om('writeModal');
+      }
+      function openEdit() {
+        const p = posts.find(q => q.id === cid); if (!p) return;
+        em = true; bid = 0; tB64 = p.thumb || '';
+        blocks = (p.blocks || (p.body ? [{ type: 'text', content: p.body }] : [])).map(b => ({ ...b, _id: bid++ }));
+        document.getElementById('wt').textContent = '글 수정하기';
+        document.getElementById('ws').textContent = 'Edit Post';
+        document.getElementById('inTitle').value = p.title;
+        document.getElementById('inCat').value = p.category;
+        document.getElementById('inTags').value = (p.tags || []).join(', ');
+        const prev = document.getElementById('tp');
+        if (tB64) { prev.src = tB64; prev.classList.add('on'); } else prev.classList.remove('on');
+        rBlocks(); om('writeModal');
+      }
+      async function savePost() {
+        if (!fbOk) { toast('Firebase 연결 필요', 'err'); return; }
+        const title = document.getElementById('inTitle').value.trim(), cat = document.getElementById('inCat').value;
+        const tags = document.getElementById('inTags').value.split(',').map(t => t.trim()).filter(Boolean);
+        if (!title) { toast('제목을 입력해주세요', 'err'); return; }
+        blocks.forEach(b => {
+          if (b.type === 'text') { const ta = document.querySelector(`[data-bid="${b._id}"] textarea`); if (ta) b.content = ta.value; }
+          if (b.type === 'image') { const ci = document.querySelector(`[data-bid="${b._id}"] .ci`); if (ci) b.caption = ci.value; }
+        });
+        if (!blocks.length) { toast('내용을 최소 하나 추가해주세요', 'err'); return; }
+        const cb = blocks.map(({ _id, ...r }) => r);
+        const btn = document.getElementById('saveBtn'); btn.disabled = true; btn.textContent = '저장 중...';
+        try {
+          const data = { title, category: cat, tags, blocks: cb, thumb: tB64 };
+          if (em) { await fbUpd(cid, data); toast('수정 완료 ✓', 'ok'); }
+          else { await fbAdd(data); toast('등록 완료 ✓', 'ok'); }
+          cm('writeModal'); await load(); if (em) openPost(cid);
+        } catch (e) { toast('저장 실패: ' + e.message, 'err'); }
+        finally { btn.disabled = false; btn.textContent = '저장하기 Save'; }
+      }
+      async function confirmDel() {
+        if (!confirm('정말 삭제하시겠습니까?')) return;
+        try { await fbDel(cid); toast('삭제되었습니다', ''); await load(); goHome(); }
+        catch (e) { toast('삭제 실패', 'err'); }
+      }
+      async function load() { document.getElementById('ag').innerHTML = '<div class="ld"><div class="sp"></div>불러오는 중...</div>'; posts = await fbAll(); rg(posts); }
+      function om(id) { document.getElementById(id).classList.add('on'); }
+      function cm(id) { document.getElementById(id).classList.remove('on'); }
+      document.querySelectorAll('.ov').forEach(el => el.addEventListener('click', e => { if (e.target === el) cm(el.id); }));
+      document.addEventListener('keydown', e => { if (e.key === 'Escape') document.querySelectorAll('.ov.on').forEach(el => cm(el.id)); });
+      let _tt;
+      function toast(msg, type) { const el = document.getElementById('toast'); el.textContent = msg; el.className = `toast on ${type}`; clearTimeout(_tt); _tt = setTimeout(() => el.classList.remove('on'), 3000); }
+      function x(s) { return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+      document.addEventListener('firebaseReady', () => { fbOk = true; load(); });
+      setTimeout(() => { if (!fbOk) document.getElementById('ag').innerHTML = '<div class="empty"><div class="ei">⚠️</div><p>Firebase 연결 실패. 새로고침 해주세요.</p></div>'; }, 6000);
+    </script>
 </body>
 
 </html>
