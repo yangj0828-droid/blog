@@ -11,7 +11,10 @@
   <meta property="og:type" content="website">
   <title>나의 기록 블로그 | My Record Blog</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,900,300italic" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700;800&family=Orbitron:wght@400;500;700;900&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet"
     href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
   <script type="module">
@@ -34,24 +37,24 @@
   </script>
   <style>
     :root {
-      --bg: #f7f7f7;
-      --white: #ffffff;
-      --border: #dddddd;
-      --text: #5d5d5d;
-      --tm: #858484;
-      --tl: #c5c4c4;
-      --ac: #d52349;
-      --al: #f3f3f3;
-      --dn: #d52349;
-      --dl: #f3f3f3;
-      --tb: #eeeeee;
-      --ss: 0 4px 6px -1px rgba(0, 0, 0, .05);
-      --sl: 0 10px 15px -3px rgba(0, 0, 0, .1);
-      --r: 5px;
-      --rs: 5px;
-      --fk: 'Source Sans Pro', 'Noto Sans KR', sans-serif;
-      --fd: 'Source Sans Pro', 'Noto Sans KR', sans-serif;
-      --hh: 72px
+      --bg: #0F0F23;
+      --white: #1A1A35;
+      --border: #3D3D5E;
+      --text: #F8FAFC;
+      --tm: #94A3B8;
+      --tl: #64748B;
+      --ac: #7C3AED;
+      --al: #2D1B69;
+      --dn: #F43F5E;
+      --dl: #4C0F20;
+      --tb: #1E1E3F;
+      --ss: 4px 4px 0px rgba(124, 58, 237, 1);
+      --sl: 6px 6px 0px rgba(124, 58, 237, 1);
+      --r: 0px;
+      --rs: 0px;
+      --fk: 'Exo 2', 'Noto Sans KR', sans-serif;
+      --fd: 'Orbitron', 'Noto Sans KR', sans-serif;
+      --hh: 80px
     }
 
     *,
@@ -167,22 +170,25 @@
     }
 
     .nl {
-      background: none;
-      border: none;
+      background: var(--bg);
+      border: 2px solid var(--border);
       font-size: 20px;
       color: var(--text);
       padding: 8px 12px;
       cursor: pointer;
-      transition: .2s;
+      transition: all .2s;
       text-decoration: none;
       display: flex;
       align-items: center;
       justify-content: center;
+      box-shadow: 2px 2px 0px var(--ac);
     }
 
     .nl:hover {
-      color: var(--ac);
-      transform: translateY(-2px);
+      background: var(--ac);
+      color: #fff;
+      transform: translate(-2px, -2px);
+      box-shadow: 4px 4px 0px var(--border);
     }
 
     .nl.active {
@@ -206,28 +212,32 @@
     }
 
     .hero {
-      background: #CCE8F4;
-      background-image: url('images/bg02.png');
-      border-bottom: 1px solid var(--border);
-      padding: 8em 24px;
+      background: var(--bg);
+      background-image: linear-gradient(45deg, var(--white) 25%, transparent 25%, transparent 75%, var(--white) 75%, var(--white)),
+        linear-gradient(45deg, var(--white) 25%, transparent 25%, transparent 75%, var(--white) 75%, var(--white));
+      background-size: 40px 40px;
+      background-position: 0 0, 20px 20px;
+      border-bottom: 2px solid var(--border);
+      padding: 6em 24px;
       text-align: center;
-      margin-top: 24px;
     }
 
     .hero-box {
-      background-color: rgba(34, 30, 31, 0.98);
+      background-color: var(--white);
       display: inline-block;
-      padding: 2.5em 5em;
-      border-radius: 5px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      padding: 3.5em 5em;
+      border: 3px solid var(--ac);
+      box-shadow: var(--sl);
     }
 
     .hero h1 {
       font-family: var(--fd);
-      font-size: clamp(32px, 6vw, 48px);
-      font-weight: 700;
-      margin-bottom: 16px;
-      color: #ffffff;
+      font-size: clamp(40px, 8vw, 64px);
+      font-weight: 900;
+      margin-bottom: 8px;
+      color: var(--text);
+      text-transform: uppercase;
+      letter-spacing: 2px;
     }
 
     .hero p {
@@ -246,7 +256,7 @@
 
     .cb {
       background: var(--white);
-      border-bottom: 1px solid var(--border);
+      border-bottom: 2px solid var(--border);
       position: sticky;
       top: var(--hh);
       z-index: 100
@@ -257,9 +267,8 @@
       margin: 0 auto;
       padding: 0 24px;
       display: flex;
-      gap: 4px;
       overflow-x: auto;
-      scrollbar-width: none
+      gap: 16px;
     }
 
     .cbi::-webkit-scrollbar {
@@ -267,58 +276,61 @@
     }
 
     .cp {
-      background: none;
-      border: none;
-      font-family: var(--fk);
-      font-size: 15px;
-      font-weight: 400;
+      background: var(--bg);
+      border: 2px solid var(--border);
+      font-family: var(--fd);
+      font-size: 14px;
+      font-weight: 600;
       color: var(--tm);
-      padding: 16px 14px;
+      padding: 12px 18px;
       cursor: pointer;
       white-space: nowrap;
-      border-bottom: 3px solid transparent;
       transition: .2s;
-      flex-shrink: 0
+      flex-shrink: 0;
+      text-transform: uppercase;
+      margin-top: 14px;
+      margin-bottom: 14px;
     }
 
     .cp:hover {
-      color: var(--text)
+      color: var(--text);
+      border-color: var(--ac);
     }
 
     .cp.active {
-      color: var(--ac);
-      border-bottom-color: var(--ac);
-      font-weight: 700
+      background: var(--ac);
+      color: #0F0F23;
+      border-color: var(--ac);
+      box-shadow: 2px 2px 0px var(--text);
     }
 
     .pw {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 36px 24px 60px;
-      /* removed grid columns since aside is gone */
+      padding: 48px 24px 80px;
     }
 
     .ag {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 18px
+      gap: 24px
     }
 
     .ac {
       background: var(--white);
       border-radius: var(--r);
-      overflow: hidden;
-      border: 1px solid var(--border);
+      border: 2px solid var(--border);
       box-shadow: var(--ss);
       cursor: pointer;
-      transition: transform .25s, box-shadow .25s;
+      transition: all .2s;
       display: flex;
       flex-direction: column
     }
 
     .ac:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--sl)
+      transform: translate(-4px, -4px);
+      box-shadow: var(--sl);
+      border-color: var(--ac);
     }
 
     .ct {
@@ -1200,38 +1212,39 @@
   <header>
     <div class="hi">
       <a href="javascript:location.reload()" class="logo" style="text-decoration:none;">
-        <span class="lm" style="color:#252122;font-size:24px;font-weight:900;">기록</span>
-        <span class="ls">RECORD 記錄</span>
+        <span class="lm" style="color:var(--text);font-size:28px;font-weight:900;font-family:var(--fd);">기록</span>
+        <span class="ls" style="color:var(--ac);font-family:var(--fk);">RECORD 記錄</span>
       </a>
-      <nav>
+      <nav style="gap:14px;">
         <a href="https://instagram.com" target="_blank" class="nl" aria-label="Instagram"><i
             class="fa-brands fa-instagram"></i></a>
         <a href="https://threads.net" target="_blank" class="nl" aria-label="Threads"><i
             class="fa-brands fa-threads"></i></a>
 
-        <div style="display:flex; align-items:center; margin-left:14px;">
+        <div style="display:flex; align-items:center;">
           <img
-            src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fyangj0828-droid.github.io%2Fblog&count_bg=%234F46E5&title_bg=%232C2C2C&icon=&icon_color=%23E7E7E7&title=Today+%2F+Total&edge_flat=true"
-            alt="Hits" style="border-radius:4px; box-shadow:var(--ss); height: 20px;">
+            src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fyangj0828-droid.github.io%2Fblog&count_bg=%237C3AED&title_bg=%231E1E3F&icon=&icon_color=%23E7E7E7&title=Today+%2F+Total&edge_flat=true"
+            alt="Hits" style="border:2px solid var(--border); box-shadow:var(--ss); height: 28px;">
         </div>
         <button id="adminBtn" onclick="adminToggle()"
-          style="background:none;border:none;cursor:pointer;color:transparent;font-size:8px;padding:4px;position:absolute;right:16px;top:20px;">●</button>
+          style="background:var(--bg);border:2px solid var(--border);color:var(--text);font-size:12px;padding:6px 16px;cursor:pointer;font-family:var(--fk);font-weight:700;box-shadow:2px 2px 0px var(--ac);transition:.2s;">👤
+          LOGIN</button>
       </nav>
     </div>
   </header>
   <div id="heroWrap">
     <div class="hero">
       <div class="hero-box">
-        <h1 style="margin-bottom:0px; font-weight:700;">記錄</h1>
-        <p>Record</p>
+        <h1 style="margin-bottom:0px; font-weight:900; text-shadow:4px 4px 0px var(--ac);">記錄</h1>
+        <p style="font-family:var(--fd); font-weight:900; font-size:28px; margin-bottom:12px;">RECORD</p>
         <p class="sub">오늘의 기록이 내일의 추억이 되는 공간입니다.<br>일상, 개발, 그리고 여행 이야기를 자유롭게 나눕니다.</p>
 
-        <div style="margin-top:28px; display:flex; justify-content:center;">
+        <div style="margin-top:32px; display:flex; justify-content:center;">
           <div style="position:relative; max-width:400px; width:100%;">
             <input type="text" id="searchInput" placeholder="게시물 검색..." onkeyup="if(event.key==='Enter')doSearch()"
-              style="width:100%; padding:12px 20px; border-radius:30px; border:1px solid var(--border); box-shadow:var(--ss); font-family:var(--fk); font-size:15px; outline:none; transition:0.2s;">
+              style="width:100%; padding:14px 20px; border:2px solid var(--border); background:var(--bg); color:var(--text); box-shadow:var(--ss); font-family:var(--fk); font-size:16px; outline:none; transition:0.2s;">
             <button onclick="doSearch()"
-              style="position:absolute; right:6px; top:6px; background:var(--ac); color:#fff; border:none; border-radius:24px; padding:6px 14px; font-weight:700; cursor:pointer;">검색</button>
+              style="position:absolute; right:8px; top:8px; background:var(--ac); color:#fff; border:2px solid var(--text); padding:8px 16px; font-weight:700; cursor:pointer;font-family:var(--fd); transition:.2s;box-shadow:2px 2px 0px var(--border);">SEARCH</button>
           </div>
         </div>
       </div>
