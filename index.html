@@ -36,24 +36,24 @@
   </script>
   <style>
     :root {
-      --bg: #f5f5f5;
-      --white: #ffffff;
-      --border: #e2e2e2;
-      --text: #444444;
-      --tm: #777777;
-      --tl: #aaaaaa;
-      --ac: #d52349;
-      --al: #fdf2f4;
-      --dn: #d52349;
-      --dl: #fdf2f4;
-      --tb: #eeeeee;
-      --ss: 0 2px 4px rgba(0, 0, 0, .03);
-      --sl: 0 10px 20px rgba(0, 0, 0, .06);
-      --r: 8px;
-      --rs: 6px;
+      --bg: #FFFBF9;
+      --white: #FFFFFF;
+      --border: #F3EAE8;
+      --text: #5A4A48;
+      --tm: #8F817F;
+      --tl: #C2B6B4;
+      --ac: #EDA0A8;
+      --al: #FFF1F3;
+      --dn: #EDA0A8;
+      --dl: #FFF1F3;
+      --tb: #F9F2F1;
+      --ss: 0 8px 16px rgba(237, 160, 168, 0.08);
+      --sl: 0 16px 32px rgba(237, 160, 168, 0.12);
+      --r: 24px;
+      --rs: 16px;
       --fk: 'Noto Sans KR', sans-serif;
-      --fd: 'Noto Sans KR', sans-serif;
-      --hh: 68px
+      --fd: 'Cormorant Garamond', 'Noto Sans KR', serif;
+      --hh: 76px
     }
 
     *,
@@ -172,10 +172,10 @@
       border: none;
       font-family: var(--fk);
       font-size: 14px;
-      font-weight: 600;
+      font-weight: 500;
       color: var(--tm);
-      padding: 8px 14px;
-      border-radius: 4px;
+      padding: 8px 16px;
+      border-radius: 30px;
       cursor: pointer;
       transition: .2s;
       white-space: nowrap
@@ -224,12 +224,12 @@
 
     .hero h1 {
       font-family: var(--fd);
-      font-size: clamp(40px, 7vw, 64px);
-      font-weight: 900;
-      letter-spacing: -0.5px;
+      font-size: clamp(44px, 7vw, 72px);
+      font-weight: 700;
+      letter-spacing: 0;
       line-height: 1.2;
       margin-bottom: 16px;
-      color: #333333
+      color: #3C2E2C
     }
 
     .hero p {
@@ -267,8 +267,8 @@
       border: none;
       font-family: var(--fk);
       font-size: 14px;
-      font-weight: 600;
-      color: var(--tm);
+      font-weight: 500;
+      color: var(--tl);
       padding: 16px 14px;
       cursor: pointer;
       white-space: nowrap;
@@ -278,7 +278,7 @@
     }
 
     .cp:hover {
-      color: var(--ac)
+      color: var(--text)
     }
 
     .cp.active {
