@@ -19,6 +19,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { getFirestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, orderBy, query, serverTimestamp, increment } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
     const firebaseConfig = {
       apiKey: "AIzaSyDVsdZEiK5o-mxAXTZX4bpGOf81YgVRhws",
       authDomain: "my-record-blog.firebaseapp.com",
@@ -29,9 +30,15 @@
     };
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
+    const storage = getStorage(app);
     window._db = db; window._col = collection; window._addDoc = addDoc; window._getDocs = getDocs;
     window._doc = doc; window._updateDoc = updateDoc; window._deleteDoc = deleteDoc;
     window._orderBy = orderBy; window._query = query; window._serverTimestamp = serverTimestamp; window._increment = increment;
+    window._upFile = async (file) => {
+      const sRef = ref(storage, 'uploads/' + Date.now() + '_' + file.name);
+      await uploadBytes(sRef, file);
+      return await getDownloadURL(sRef);
+    };
     document.dispatchEvent(new Event('firebaseReady'));
   </script>
   <style>
@@ -1597,30 +1604,37 @@
       };
       r.readAsDataURL(file);
     }
-    function onImg(id, e) {
+    async function onImg(id, e) {
       const f = e.target.files[0]; if (!f) return;
-      toast('이미지 압축 중...', '');
-      compressImg(f, 800, 0.5, data => {
+      toast('Cloud 업로드 중...', '');
+      try {
+        const url = await window._upFile(f);
         const b = blocks.find(q => q._id === id);
         if (b) {
-          b.data = data;
+          b.data = url;
           rBlocks();
-          toast('압축 완료 ✓', 'ok');
+          toast('업로드 완료 ✓', 'ok');
         }
-      });
+      } catch (err) {
+        console.error(err);
+        toast('클라우드 업로드 실패! 파이어베이스 설정을 확인하세요.', 'err');
+      }
     }
-    function onThumb(e) {
+    async function onThumb(e) {
       const f = e.target.files[0]; if (!f) return;
-      toast('썸네일 압축 중...', '');
-      compressImg(f, 400, 0.5, data => {
-        tB64 = data;
+      toast('Cloud 썸네일 업로드...', '');
+      try {
+        const url = await window._upFile(f);
+        tB64 = url;
         const p = document.getElementById('tp');
         if (p) {
           p.src = tB64;
           p.classList.add('on');
         }
-        toast('압축 완료 ✓', 'ok');
-      });
+        toast('썸네일 업로드 완료 ✓', 'ok');
+      } catch (err) {
+        toast('클라우드 썸네일 실패!', 'err');
+      }
     }
     function openWrite() {
       em = false; blocks = []; tB64 = ''; bid = 0;
