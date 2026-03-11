@@ -1673,13 +1673,6 @@
       const cb = blocks.map(({ _id, ...r }) => r);
       const data = { title, category: cat, tags, blocks: cb, thumb: tB64 };
 
-      // 용량 체크 로직 (Firestore 1MB 한도 방어)
-      const s = JSON.stringify(data).length;
-      if (s > 950000) {
-        toast(`용량 초과 (${Math.round(s / 1024)}KB) - 이미지 개수를 줄여주세요!`, 'err');
-        return;
-      }
-
       const btn = document.getElementById('saveBtn'); btn.disabled = true; btn.textContent = '저장 중...';
       try {
         if (em) { await fbUpd(cid, data); toast('수정 완료 ✓', 'ok'); }
@@ -1687,7 +1680,7 @@
         cm('writeModal'); await load(); if (em) openPost(cid);
       } catch (e) {
         console.error(e);
-        toast('저장 실패: 이미지 용량이 너무 큽니다.', 'err');
+        toast('저장 실패: ' + e.message, 'err');
       }
       finally { btn.disabled = false; btn.textContent = '저장하기 Save'; }
     }
