@@ -210,7 +210,8 @@
     }
 
     .hero {
-      height: calc(100vh - var(--hh));
+      height: 450px;
+      min-height: 450px;
       background: url('https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?q=80&w=2667&auto=format&fit=crop') no-repeat center center;
       background-size: cover;
       position: relative;
@@ -236,7 +237,7 @@
       background-color: rgba(255, 255, 255, 0.6);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
-      padding: 6em 4em;
+      padding: 3em 4em;
       border: 1px solid rgba(255, 255, 255, 0.4);
       box-shadow: var(--sl);
       position: relative;
@@ -1285,10 +1286,10 @@
           記錄</span>
       </a>
       <nav style="gap:24px;">
-        <a href="https://instagram.com" target="_blank" class="nl" aria-label="Instagram" style="font-size:18px;"><i
-            class="fa-brands fa-instagram"></i></a>
-        <a href="https://threads.net" target="_blank" class="nl" aria-label="Threads" style="font-size:18px;"><i
-            class="fa-brands fa-threads"></i></a>
+        <a href="https://instagram.com" target="_blank" class="nl" aria-label="Instagram"
+          style="font-size:18px; color:#E4405F;"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://threads.net" target="_blank" class="nl" aria-label="Threads"
+          style="font-size:18px; color:#000000;"><i class="fa-brands fa-threads"></i></a>
 
         <div style="display:flex; align-items:center;">
           <img
@@ -1296,7 +1297,7 @@
             alt="Hits" style="height:20px; opacity:0.8;">
         </div>
         <button id="adminBtn" onclick="adminToggle()"
-          style="background:none;border:none;color:var(--text);font-size:12px;letter-spacing:1px;cursor:pointer;font-family:var(--fk);font-weight:500;transition:.3s;">MENU</button>
+          style="background:none;border:none;color:var(--text);font-size:12px;letter-spacing:1px;cursor:pointer;font-family:var(--fk);font-weight:700;transition:.3s;">LOGIN</button>
       </nav>
     </div>
   </header>
@@ -1598,32 +1599,28 @@
     }
     function onImg(id, e) {
       const f = e.target.files[0]; if (!f) return;
-      toast('이미지 업로드 중...', '');
-      const r = new FileReader();
-      r.onload = ev => {
+      toast('이미지 최적화 중...', '');
+      compressImg(f, 1600, 0.7, data => {
         const b = blocks.find(q => q._id === id);
         if (b) {
-          b.data = ev.target.result;
-          rBlocks(); // Update UI
+          b.data = data;
+          rBlocks();
           toast('이미지 추가됨 ✓', 'ok');
         }
-      };
-      r.readAsDataURL(f);
+      });
     }
     function onThumb(e) {
       const f = e.target.files[0]; if (!f) return;
-      toast('썸네일 업로드 중...', '');
-      const r = new FileReader();
-      r.onload = ev => {
-        tB64 = ev.target.result;
+      toast('썸네일 최적화 중...', '');
+      compressImg(f, 800, 0.7, data => {
+        tB64 = data;
         const p = document.getElementById('tp');
         if (p) {
           p.src = tB64;
           p.classList.add('on');
         }
         toast('썸네일 추가됨 ✓', 'ok');
-      };
-      r.readAsDataURL(f);
+      });
     }
     function openWrite() {
       em = false; blocks = []; tB64 = ''; bid = 0;
