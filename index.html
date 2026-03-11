@@ -12,7 +12,7 @@
   <title>나의 기록 블로그 | My Record Blog</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link
-    href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400..900;1,400..900&family=Jost:ital,wght@0,100..900;1,100..900&family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400..900;1,400..900&family=Jost:ital,wght@0,100..900;1,100..900&family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@300;400;500;700;900&display=swap"
     rel="stylesheet">
   <link rel="stylesheet"
     href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
@@ -60,7 +60,7 @@
       --r: 0px;
       --rs: 0px;
       --fk: 'Jost', 'Noto Sans KR', sans-serif;
-      --fd: 'Bodoni Moda', serif;
+      --fd: 'Noto Serif KR', 'Bodoni Moda', serif;
       --hh: 90px
     }
 
@@ -1274,10 +1274,14 @@
         padding: 0 16px
       }
 
+      .hi span.lm {
+        font-family: var(--fd) !important;
+      }
+
       .hi nav,
       .hi button,
-      .hi span {
-        font-family: 'Jost', 'Noto Sans KR', sans-serif !important;
+      .hi span:not(.lm) {
+        font-family: var(--fk) !important;
       }
     }
   </style>
@@ -1333,8 +1337,14 @@
     </section>
 
     <section class="feat-sec">
-      <div class="sec-ttl" style="text-align:center;">
-        <div style="font-size:32px; margin-bottom:10px;">✨</div>
+      <div class="sec-ttl"
+        style="text-align:center; padding: 60px 20px 40px; background: linear-gradient(to bottom, rgba(241,235,228,0.4), transparent); border-radius: 50px 50px 0 0;">
+        <p
+          style="font-family:var(--fd); color:var(--ac); font-size:12px; letter-spacing:4px; margin-bottom:15px; text-transform:uppercase;">
+          Curated Collection</p>
+        <h2 style="font-family:var(--fd); font-size:38px; font-weight:300; color:var(--text); line-height:1.2;">Explore
+          the Moments</h2>
+        <div style="width:40px; height:1px; background:var(--ac); margin:25px auto;"></div>
       </div>
       <div class="cb">
         <div class="cbi" id="topCatStats">
