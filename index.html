@@ -234,10 +234,10 @@
     }
 
     .hero-box {
-      background-color: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
-      padding: 2.5em 4em;
+      background-color: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      padding: 2em 4em;
       border: 1px solid rgba(255, 255, 255, 0.2);
       box-shadow: var(--sl);
       position: relative;
@@ -1599,27 +1599,27 @@
     }
     function onImg(id, e) {
       const f = e.target.files[0]; if (!f) return;
-      toast('이미지 최적화 중...', '');
-      compressImg(f, 1200, 0.6, data => {
+      toast('이미지 압축 중...', '');
+      compressImg(f, 800, 0.5, data => {
         const b = blocks.find(q => q._id === id);
         if (b) {
           b.data = data;
           rBlocks();
-          toast('이미지 추가됨 ✓', 'ok');
+          toast('압축 완료 ✓', 'ok');
         }
       });
     }
     function onThumb(e) {
       const f = e.target.files[0]; if (!f) return;
-      toast('썸네일 최적화 중...', '');
-      compressImg(f, 600, 0.6, data => {
+      toast('썸네일 압축 중...', '');
+      compressImg(f, 400, 0.5, data => {
         tB64 = data;
         const p = document.getElementById('tp');
         if (p) {
           p.src = tB64;
           p.classList.add('on');
         }
-        toast('썸네일 추가됨 ✓', 'ok');
+        toast('압축 완료 ✓', 'ok');
       });
     }
     function openWrite() {
@@ -1657,13 +1657,24 @@
       });
       if (!blocks.length) { toast('내용을 최소 하나 추가해주세요', 'err'); return; }
       const cb = blocks.map(({ _id, ...r }) => r);
+      const data = { title, category: cat, tags, blocks: cb, thumb: tB64 };
+
+      // 용량 체크 로직 (Firestore 1MB 한도 방어)
+      const s = JSON.stringify(data).length;
+      if (s > 950000) {
+        toast(`용량 초과 (${Math.round(s / 1024)}KB) - 이미지 개수를 줄여주세요!`, 'err');
+        return;
+      }
+
       const btn = document.getElementById('saveBtn'); btn.disabled = true; btn.textContent = '저장 중...';
       try {
-        const data = { title, category: cat, tags, blocks: cb, thumb: tB64 };
         if (em) { await fbUpd(cid, data); toast('수정 완료 ✓', 'ok'); }
         else { await fbAdd(data); toast('등록 완료 ✓', 'ok'); }
         cm('writeModal'); await load(); if (em) openPost(cid);
-      } catch (e) { toast('저장 실패: ' + e.message, 'err'); }
+      } catch (e) {
+        console.error(e);
+        toast('저장 실패: 이미지 용량이 너무 큽니다.', 'err');
+      }
       finally { btn.disabled = false; btn.textContent = '저장하기 Save'; }
     }
     async function confirmDel() {
