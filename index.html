@@ -1195,8 +1195,8 @@
   </div>
   <header>
     <div class="hi">
-      <a href="#" class="logo" onclick="goHome();return false;"><span class="lm">나의 기록 블로그</span><span class="ls">MY
-          RECORD BLOG</span></a>
+      <a href="javascript:location.reload()" class="logo"><span class="lm">기록</span><span class="ls">RECORD
+          記錄</span></a>
       <nav>
         <button class="nl active" onclick="filterCat('전체');setNav(this)">전체</button>
         <button class="nl" onclick="filterCat('일상');setNav(this)">일상</button>
@@ -1211,8 +1211,13 @@
   <div id="heroWrap">
     <div class="hero">
       <div class="hb">My Personal Space</div>
-      <h1>My Record Blog</h1>
+      <h1>기록 <span style="font-size:0.6em;font-weight:400;color:var(--tm);font-family:var(--fk);">Record 記錄</span></h1>
       <p>오늘의 기록이 내일의 추억이 되는 공간입니다.<br>일상, 개발, 그리고 여행 이야기를 자유롭게 나눕니다.</p>
+      <div style="margin-top:24px; display:flex; justify-content:center;">
+        <img
+          src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fyangj0828-droid.github.io%2Fblog&count_bg=%234F46E5&title_bg=%232C2C2C&icon=&icon_color=%23E7E7E7&title=Today+%2F+Total&edge_flat=true"
+          alt="Hits" style="border-radius:4px; box-shadow:var(--ss);">
+      </div>
     </div>
     <div class="cb">
       <div class="cbi">
@@ -1288,13 +1293,8 @@
     </div>
   </div>
   <footer>
-    <p>© 2025 나의 기록 블로그 · My Record Blog</p>
+    <p>© 2025 기록 · Record 記錄</p>
     <p style="margin-top:5px"><a href="#">Privacy Policy</a> · <a href="mailto:">Contact</a></p>
-    <div style="margin-top:16px; display:flex; justify-content:center;">
-      <img
-        src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fyangj0828-droid.github.io%2Fblog&count_bg=%234F46E5&title_bg=%232C2C2C&icon=&icon_color=%23E7E7E7&title=Today+%2F+Total&edge_flat=true"
-        alt="Hits" style="border-radius:4px; box-shadow:var(--ss);">
-    </div>
   </footer>
 
   <!-- LOGIN -->
@@ -1420,13 +1420,13 @@
     async function addCmt() {
       const t = document.getElementById('cmtInput').value.trim(), e = document.getElementById('cmtEmoji').value;
       if (!t) return toast('댓글 내용을 입력해주세요', 'err');
-      if (!fbOk) return toast('Firebase 연결 필요', 'err');
+      // 로그인 권한(fbOk 등) 체크 로직 제거하여 아무나 작성 가능하도록 변경
       document.getElementById('cmtInput').disabled = true;
       try {
         await window._addDoc(window._col(db(), 'comments'), { postId: cid, text: t, emoji: e, createdAt: window._serverTimestamp() });
         document.getElementById('cmtInput').value = '';
         await loadCmt(cid); toast('댓글이 등록되었습니다', 'ok');
-      } catch (err) { toast('댓글 등록 실패', 'err'); }
+      } catch (err) { toast('댓글 등록 실패 (권한 문제일 수 있습니다)', 'err'); }
       finally { document.getElementById('cmtInput').disabled = false; }
     }
     function adminToggle() { isAdmin ? logout() : om('loginModal'); }
