@@ -1188,15 +1188,32 @@
     .ta {
       width: 100%;
       border: none;
-      padding: 10px 14px;
+      padding: 15px 18px;
       font-family: var(--fk);
-      font-size: 15px;
+      font-size: 16px;
       line-height: 1.8;
       color: var(--text);
       background: transparent;
       outline: none;
       resize: none;
-      min-height: 80px
+      min-height: 200px
+    }
+
+    .bvm {
+      width: 100%;
+      background: #000;
+      border-radius: 8px;
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    .bv {
+      width: 100%;
+      max-height: 500px;
+      display: block;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border);
     }
 
     .tz {
@@ -1406,7 +1423,7 @@
     </div>
   </div>
   <div id="dv">
-    <button class="dbk" onclick="goHome()">← 목록으로 돌아가기</button>
+    <button class="dbk" onclick="history.back()">← 목록으로 돌아가기</button>
     <div class="dcov" id="dcov"></div>
     <div class="dcat" id="dcat"></div>
     <div class="dtt" id="dtt"></div>
@@ -1490,7 +1507,9 @@
         <div class="ew">
           <div class="et">
             <button class="tb" onclick="addTxt()">📝 글 블록 추가</button>
-            <button class="tb" onclick="addImg()">🖼 이미지 블록 추가</button>
+            <button class="tb" onclick="document.getElementById('if_bulk').click()">🖼 사진 대량 추가 (인식)</button>
+            <button class="tb" onclick="addVid()">🎥 동영상 추가</button>
+            <input type="file" id="if_bulk" multiple accept="image/*" style="display:none" onchange="onImgBulk(event)">
           </div>
           <div class="bw" id="bw"></div>
         </div>
@@ -1559,7 +1578,10 @@
         topStats.innerHTML = allHtml + catsHtml;
       }
     }
-    function goHome() { cid = null; document.getElementById('mainView').style.display = ''; document.getElementById('heroWrap').style.display = ''; document.getElementById('dv').classList.remove('on'); rg(posts); window.scrollTo(0, 0); }
+    function goHome(push = true) {
+      if (push) history.pushState({ home: true }, '', location.pathname + location.search);
+      cid = null; document.getElementById('mainView').style.display = ''; document.getElementById('heroWrap').style.display = ''; document.getElementById('dv').classList.remove('on'); rg(posts); window.scrollTo(0, 0);
+    }
     function filterCat(c) { cf = c; if (document.getElementById('mainView').style.display === 'none') goHome(); else rg(posts); }
     function doSearch() {
       const kw = document.getElementById('searchInput').value.trim().toLowerCase();
@@ -1573,8 +1595,9 @@
     }
     function setNav(el) { document.querySelectorAll('.nl:not(.na)').forEach(b => b.classList.remove('active')); el.classList.add('active'); }
     function setCat(el) { document.querySelectorAll('.cp').forEach(b => b.classList.remove('active')); el.classList.add('active'); }
-    async function openPost(id) {
+    async function openPost(id, push = true) {
       const p = posts.find(q => q.id === id); if (!p) return; cid = id;
+      if (push) history.pushState({ postId: id }, '', '#post-' + id);
       const e2 = EM[p.category] || '📝', cov = document.getElementById('dcov');
       const th = p.thumb || (p.blocks || []).find(b => b.type === 'image')?.data || '';
       if (th) { cov.innerHTML = `<img src="${th}" alt="${x(p.title)}">`; cov.style.fontSize = ''; }
@@ -1584,7 +1607,11 @@
       document.getElementById('dtt').textContent = p.title;
       document.getElementById('dmt').innerHTML = `<span>${date}</span><span>👁 ${(p.views || 0) + 1}</span>`;
       const pb = p.blocks || (p.body ? [{ type: 'text', content: p.body }] : []);
-      document.getElementById('dbl').innerHTML = pb.map(b => b.type === 'image' ? `<div class="bim"><img src="${b.data}" alt="${x(b.caption || '')}"><${b.caption ? `div class="bcp">${x(b.caption)}</div` : 'div style="display:none"></div'}></div>` : `<div class="btx">${x(b.content)}</div>`).join('');
+      document.getElementById('dbl').innerHTML = pb.map(b => {
+        if (b.type === 'image') return `<div class="bim"><img src="${b.data}" alt="${x(b.caption || '')}">${b.caption ? `<div class="bcp">${x(b.caption)}</div>` : ''}</div>`;
+        if (b.type === 'video') return `<div class="bim"><video src="${b.data}" class="bv" controls></video></div>`;
+        return `<div class="btx">${x(b.content)}</div>`;
+      }).join('');
       document.getElementById('dtags').innerHTML = (p.tags || []).map(t => `<span class="dtg">#${x(t)}</span>`).join('');
       const ab = document.getElementById('adb'); ab.style.display = isAdmin ? 'flex' : 'none';
       document.getElementById('heroWrap').style.display = 'none'; document.getElementById('mainView').style.display = 'none';
@@ -1592,6 +1619,10 @@
       fbV(id); p.views = (p.views || 0) + 1;
       loadCmt(id);
     }
+    window.onpopstate = e => {
+      if (e.state && e.state.postId) openPost(e.state.postId, false);
+      else goHome(false);
+    };
     async function loadCmt(pid) {
       const cl = document.getElementById('cmtList'); cl.innerHTML = '<li style="color:var(--tl);font-size:13px">댓글을 불러오는 중...</li>';
       try {
@@ -1645,6 +1676,7 @@
     }
     function addTxt(c = '') { const id = bid++; blocks.push({ _id: id, type: 'text', content: c }); rBlocks(); setTimeout(() => { const ta = document.querySelector(`[data-bid="${id}"] textarea`); if (ta) ta.focus(); }, 50); }
     function addImg(d = '', cap = '') { const id = bid++; blocks.push({ _id: id, type: 'image', data: d, caption: cap }); rBlocks(); }
+    function addVid(d = '') { const id = bid++; blocks.push({ _id: id, type: 'video', data: d }); rBlocks(); }
     function rmBlock(id) { blocks = blocks.filter(b => b._id !== id); rBlocks(); }
     function mvBlock(id, dir) { const i = blocks.findIndex(b => b._id === id); if (dir === -1 && i > 0) [blocks[i], blocks[i - 1]] = [blocks[i - 1], blocks[i]]; if (dir === 1 && i < blocks.length - 1) [blocks[i], blocks[i + 1]] = [blocks[i + 1], blocks[i]]; rBlocks(); }
     function rBlocks() {
@@ -1655,8 +1687,10 @@
         const acts = `<div class="bas"><button class="bab" onclick="mvBlock(${b._id},-1)">↑</button><button class="bab" onclick="mvBlock(${b._id},1)">↓</button><button class="bab dl" onclick="rmBlock(${b._id})">✕</button></div>`;
         if (b.type === 'text') {
           d.innerHTML = `<div class="bh"><span class="bl">📝 텍스트 블록</span>${acts}</div><div class="tin"><textarea class="ta" placeholder="내용을 입력하세요..." oninput="uTx(${b._id},this.value);aH(this)" rows="4">${x(b.content)}</textarea></div>`;
-        } else {
+        } else if (b.type === 'image') {
           d.innerHTML = `<div class="bh"><span class="bl">🖼 이미지 블록</span>${acts}</div><div class="iin"><div class="uz ${b.data ? 'f' : ''}" onclick="document.getElementById('if_${b._id}').click()">${b.data ? `<img src="${b.data}" alt="">` : '<div class="uzi">📷</div><div class="uzt">클릭해서 이미지 업로드 (자동 압축)</div>'}</div><input type="file" accept="image/*" id="if_${b._id}" style="display:none" onchange="onImg(${b._id},event)"><input class="ci" type="text" placeholder="📝 사진 설명 입력 (선택)" value="${x(b.caption || '')}" oninput="uCp(${b._id},this.value)"></div>`;
+        } else if (b.type === 'video') {
+          d.innerHTML = `<div class="bh"><span class="bl">🎥 동영상 블록</span>${acts}</div><div class="iin"><div class="uz ${b.data ? 'f' : ''}" onclick="document.getElementById('if_${b._id}').click()">${b.data ? `<video src="${b.data}" class="bvm"></video>` : '<div class="uzi">🎞️</div><div class="uzt">클릭해서 동영상 업로드 (MP4/WebM)</div>'}</div><input type="file" accept="video/*" id="if_${b._id}" style="display:none" onchange="onVid(${b._id},event)"></div>`;
         }
         w.appendChild(d);
         if (b.type === 'text') { const ta = d.querySelector('textarea'); if (ta) { ta.style.height = 'auto'; ta.style.height = ta.scrollHeight + 'px'; } }
@@ -1686,15 +1720,30 @@
       try {
         const url = await window._upFile(f);
         const b = blocks.find(q => q._id === id);
-        if (b) {
-          b.data = url;
-          rBlocks();
-          toast('업로드 완료 ✓', 'ok');
-        }
-      } catch (err) {
-        console.error(err);
-        toast('클라우드 업로드 실패! 파이어베이스 설정을 확인하세요.', 'err');
+        if (b) { b.data = url; rBlocks(); toast('업로드 완료 ✓', 'ok'); }
+      } catch (err) { toast('업로드 실패!', 'err'); }
+    }
+    async function onImgBulk(e) {
+      const fs = Array.from(e.target.files); if (!fs.length) return;
+      toast(`${fs.length}개의 이미지 업로드 시작...`, '');
+      for (const f of fs) {
+        try {
+          const url = await window._upFile(f);
+          const id = bid++;
+          blocks.push({ _id: id, type: 'image', data: url, caption: '' });
+        } catch (err) { toast('일부 이미지 업로드 실패', 'err'); }
       }
+      rBlocks(); toast('대량 업로드 완료 ✓', 'ok');
+    }
+    async function onVid(id, e) {
+      const f = e.target.files[0]; if (!f) return;
+      if (f.size > 50 * 1024 * 1024) return toast('동영상은 50MB 이내로 올려주세요!', 'err');
+      toast('Video 클라우드 업로드 중...', '');
+      try {
+        const url = await window._upFile(f);
+        const b = blocks.find(q => q._id === id);
+        if (b) { b.data = url; rBlocks(); toast('동영상 업로드 완료 ✓', 'ok'); }
+      } catch (err) { toast('동영상 업로드 실패!', 'err'); }
     }
     async function onThumb(e) {
       const f = e.target.files[0]; if (!f) return;
