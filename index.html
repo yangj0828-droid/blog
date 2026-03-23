@@ -1004,15 +1004,19 @@
       try { await fbDel(cid); toast('Deleted.', ''); await load(); goHome(); }
       catch (e) { toast('Delete failed.', 'err'); }
     }
+    let _initialHashChecked = false;
     async function load() {
       document.getElementById('ag').innerHTML = '<div class="ld"><div class="sp"></div>Loading...</div>';
       posts = await fbAll();
       rg(posts);
-      // Check hash for direct post link
-      const h = location.hash;
-      if (h && h.startsWith('#post-')) {
-        const pid = h.replace('#post-', '');
-        if (pid) openPost(pid, false);
+      // Check hash only on first load
+      if (!_initialHashChecked) {
+        _initialHashChecked = true;
+        const h = location.hash;
+        if (h && h.startsWith('#post-')) {
+          const pid = h.replace('#post-', '');
+          if (pid) openPost(pid, false);
+        }
       }
     }
     window.addEventListener('popstate', function(e) {
