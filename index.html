@@ -214,12 +214,12 @@
 
     /* Posts Grid - Farago masonry style */
     .pw { padding:2rem var(--pad) 6rem; }
-    .ag { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); }
+    .ag { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--bg); }
     @media(max-width:1100px){ .ag{grid-template-columns:repeat(2,1fr);} }
     @media(max-width:768px){ .ag{grid-template-columns:1fr;} .hero-stats{gap:2rem;} .ai-grid{grid-template-columns:repeat(2,1fr)!important;} .section-header{flex-direction:column;align-items:flex-start;gap:12px;} }
     @media(max-width:480px){ .ag{grid-template-columns:1fr;} .hero h1{font-size:1.6rem;} .ai-grid{grid-template-columns:repeat(2,1fr)!important;} .hero-stats{flex-direction:column;gap:1rem;} }
 
-    .ac { background:var(--surface); border:none; border-radius:0; cursor:pointer; overflow:hidden; transition: all .2s cubic-bezier(.4,0,.2,1); position:relative; box-shadow:none; }
+    .ac { background:var(--surface); border:1px solid var(--border); border-radius:0; cursor:pointer; overflow:hidden; transition: all .2s cubic-bezier(.4,0,.2,1); position:relative; box-shadow:none; }
     .ac:hover { background:var(--bg2); }
     .ac:hover .ctt { color:var(--accent); }
     .ct { width:100%; aspect-ratio:4/3; overflow:hidden; background:var(--bg3); position:relative; }
@@ -775,17 +775,12 @@
         g.prepend(empty);
       }
 
-      // Flip animate
-      if (state && typeof Flip !== 'undefined') {
-        Flip.from(state, {
-          duration: 0.6,
-          scale: true,
-          ease: 'power1.inOut',
-          stagger: 0.05,
-          absolute: true,
-          onEnter: (el) => gsap.fromTo(el, { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.6 }),
-          onLeave: (el) => gsap.to(el, { opacity: 0, scale: 0, duration: 0.5 }),
-        });
+      // Animate visible cards
+      if (typeof gsap !== 'undefined') {
+        gsap.fromTo(g.querySelectorAll('.ac:not([style*="display: none"])'),
+          { opacity: 0, y: 20, scale: 0.95 },
+          { opacity: 1, y: 0, scale: 1, duration: 0.4, stagger: 0.05, ease: 'power2.out' }
+        );
       }
 
       rSB(ps); updateStats();
