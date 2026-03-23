@@ -394,7 +394,6 @@
       <div class="hero-content">
         <div class="hero-badge"><span class="dot"></span> RORO PROJECT</div>
         <h1 class="typewriter-wrap"><span id="typewriterText"></span><span class="typewriter-cursor">|</span></h1>
-        <p class="hero-sub-tw" id="heroSubTw"></p>
       </div>
     </section>
     <div class="hero-search-wrap">
@@ -1040,12 +1039,10 @@
     // Looping Typewriter Effect
     (function(){
       const mainEl = document.getElementById('typewriterText');
-      const subEl = document.getElementById('heroSubTw');
       const mainPhrases = [
         { text: 'We joined. ', accent: false },
         { text: 'Not competed.', accent: true }
       ];
-      const subText = '친구, 라이벌, 그리고 결국 "우리"';
 
       function buildMain(){
         let html = '';
@@ -1059,17 +1056,6 @@
         });
         mainEl.innerHTML = html;
         return mainEl.querySelectorAll('.tw-char');
-      }
-
-      function buildSub(){
-        let html = '';
-        for(let i = 0; i < subText.length; i++){
-          html += subText[i] === ' '
-            ? '<span class="tw-char space" style="width:0.3em">&nbsp;</span>'
-            : '<span class="tw-char">' + subText[i] + '</span>';
-        }
-        subEl.innerHTML = html;
-        return subEl.querySelectorAll('.tw-char');
       }
 
       function showChars(chars, delay, speed, cb){
@@ -1093,21 +1079,16 @@
 
       function runCycle(){
         const mainChars = buildMain();
-        const subChars = buildSub();
         // Show main
         showChars(mainChars, 0, 80, function(){
-          // Show sub
           showChars(subChars, 0, 60, function(){
             // Hold for 3s then hide all
             setTimeout(function(){
-              hideChars(subChars, 60, function(){
-                hideChars(mainChars, 60, function(){
-                  setTimeout(runCycle, 500);
-                });
+              hideChars(mainChars, 60, function(){
+                setTimeout(runCycle, 500);
               });
             }, 3000);
           });
-        });
       }
 
       const observer = new IntersectionObserver(entries => {
