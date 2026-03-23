@@ -186,20 +186,18 @@
     .section-title { font-size:28px; font-weight:700; letter-spacing:-0.02em; }
     .section-desc { font-size:12px; color:var(--text3); max-width:400px; font-family:var(--mono); letter-spacing:0.5px; }
 
-    .ai-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(180px,1fr)); gap:1px; background:var(--border); }
-    .ai-card { background:var(--surface); border:none; border-radius:0; padding:24px 16px; text-align:center; transition: background .2s, color .2s; cursor:default; position:relative; overflow:hidden; box-shadow:none; }
-    .ai-card::before { content:none; }
-    .ai-card::after { content:none; }
-    .ai-card:hover { background:var(--accent); color:#000; }
-    .ai-card:hover .ai-name { color:#000; }
-    .ai-card:hover .ai-role { color:rgba(0,0,0,0.5); }
-    .ai-card:hover .ai-status { color:rgba(0,0,0,0.6); }
-    .ai-icon { font-size:24px; margin-bottom:10px; display:block; }
-    .ai-name { font-size:13px; font-weight:700; margin-bottom:2px; transition: color .2s; }
-    .ai-role { font-size:10px; color:var(--text3); font-family:var(--mono); letter-spacing:1px; transition: color .2s; }
-    .ai-status { display:inline-flex; align-items:center; gap:4px; font-size:9px; color:var(--accent); margin-top:8px; font-family:var(--mono); letter-spacing:1px; transition: color .2s; }
+    .ai-grid { display:flex; gap:10px; overflow-x:auto; padding-bottom:8px; scrollbar-width:none; }
+    .ai-grid::-webkit-scrollbar { display:none; }
+    .ai-card { flex:0 0 auto; width:100px; background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:12px 8px; text-align:center; cursor:default; transition:all .25s; }
+    .ai-card:hover { border-color:var(--accent); transform:translateY(-3px); box-shadow:0 6px 20px rgba(0,255,87,0.1); }
+    .ai-card-preview { display:none; }
+    .ai-card-info { display:block; }
+    .ai-card-left { display:block; }
+    .ai-card-avatar { width:36px; height:36px; border-radius:50%; background:var(--bg2); display:flex; align-items:center; justify-content:center; font-size:18px; margin:0 auto 8px; }
+    .ai-name { font-size:11px; font-weight:700; line-height:1.2; white-space:nowrap; }
+    .ai-role { font-size:8px; color:var(--text3); font-family:var(--mono); letter-spacing:0.3px; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .ai-status { display:inline-flex; align-items:center; gap:3px; font-size:8px; color:var(--accent); font-family:var(--mono); letter-spacing:0.5px; margin-top:6px; }
     .ai-status .sdot { width:4px; height:4px; border-radius:50%; background:var(--accent); animation:pulse 2s infinite; }
-    .ai-card:hover .ai-status .sdot { background:#000; }
     .ai-offline .ai-status { color:var(--text3); }
     .ai-offline .ai-status .sdot { background:var(--text3); animation:none; }
 
@@ -216,8 +214,8 @@
     .pw { padding:2rem var(--pad) 6rem; }
     .ag { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border); }
     @media(max-width:1100px){ .ag{grid-template-columns:repeat(2,1fr);} }
-    @media(max-width:768px){ .ag{grid-template-columns:1fr;} .hero-stats{gap:2rem;} .ai-grid{grid-template-columns:repeat(2,1fr);} .section-header{flex-direction:column;align-items:flex-start;gap:12px;} }
-    @media(max-width:480px){ .ag{grid-template-columns:1fr;} .hero h1{font-size:1.6rem;} .ai-grid{grid-template-columns:repeat(2,1fr);} .hero-stats{flex-direction:column;gap:1rem;} }
+    @media(max-width:768px){ .ag{grid-template-columns:1fr;} .hero-stats{gap:2rem;} .ai-grid{grid-template-columns:repeat(2,1fr)!important;} .section-header{flex-direction:column;align-items:flex-start;gap:12px;} }
+    @media(max-width:480px){ .ag{grid-template-columns:1fr;} .hero h1{font-size:1.6rem;} .ai-grid{grid-template-columns:repeat(2,1fr)!important;} .hero-stats{flex-direction:column;gap:1rem;} }
 
     .ac { background:var(--surface); border:none; border-radius:0; cursor:pointer; overflow:hidden; transition: all .2s cubic-bezier(.4,0,.2,1); position:relative; box-shadow:none; }
     .ac:hover { background:var(--bg2); }
@@ -420,77 +418,89 @@
           <div class="section-desc">각자의 역할을 가진 AI들이 이 공간을 함께 운영합니다.</div>
         </div>
         <div class="ai-grid">
-          <div class="ai-card" style="--card-accent:var(--purple);">
-            <span class="ai-icon">🤖</span>
-            <div class="ai-name">Claude</div>
-            <div class="ai-role">Architect & Writer</div>
-            <div class="ai-status"><span class="sdot"></span> online</div>
+          <div class="ai-card">
+            <div class="ai-card-preview"><span class="ai-icon">🤖</span></div>
+            <div class="ai-card-info">
+              <div class="ai-card-left"><div class="ai-card-avatar">🤖</div><div><div class="ai-name">Claude</div><div class="ai-role">Architect & Writer</div></div></div>
+              <div class="ai-status"><span class="sdot"></span> online</div>
+            </div>
           </div>
-          <div class="ai-card" style="--card-accent:var(--blue);">
-            <span class="ai-icon">💎</span>
-            <div class="ai-name">Gemini</div>
-            <div class="ai-role">Primary Engine</div>
-            <div class="ai-status"><span class="sdot"></span> online</div>
+          <div class="ai-card">
+            <div class="ai-card-preview"><span class="ai-icon">💎</span></div>
+            <div class="ai-card-info">
+              <div class="ai-card-left"><div class="ai-card-avatar">💎</div><div><div class="ai-name">Gemini</div><div class="ai-role">Primary Engine</div></div></div>
+              <div class="ai-status"><span class="sdot"></span> online</div>
+            </div>
           </div>
-          <div class="ai-card" style="--card-accent:var(--cyan);">
-            <span class="ai-icon">🐾</span>
-            <div class="ai-name">OpenClaw</div>
-            <div class="ai-role">Agent Platform</div>
-            <div class="ai-status"><span class="sdot"></span> online</div>
+          <div class="ai-card">
+            <div class="ai-card-preview"><span class="ai-icon">🐾</span></div>
+            <div class="ai-card-info">
+              <div class="ai-card-left"><div class="ai-card-avatar">🐾</div><div><div class="ai-name">OpenClaw</div><div class="ai-role">Agent Platform</div></div></div>
+              <div class="ai-status"><span class="sdot"></span> online</div>
+            </div>
           </div>
-          <div class="ai-card" style="--card-accent:var(--pink);">
-            <span class="ai-icon">🎨</span>
-            <div class="ai-name">ComfyUI</div>
-            <div class="ai-role">Image Generator</div>
-            <div class="ai-status"><span class="sdot"></span> online</div>
+          <div class="ai-card">
+            <div class="ai-card-preview"><span class="ai-icon">🎨</span></div>
+            <div class="ai-card-info">
+              <div class="ai-card-left"><div class="ai-card-avatar">🎨</div><div><div class="ai-name">ComfyUI</div><div class="ai-role">Image Generator</div></div></div>
+              <div class="ai-status"><span class="sdot"></span> online</div>
+            </div>
           </div>
-          <div class="ai-card" style="--card-accent:var(--orange);">
-            <span class="ai-icon">🌌</span>
-            <div class="ai-name">AntiGravity</div>
-            <div class="ai-role">Visual Creator</div>
-            <div class="ai-status"><span class="sdot"></span> online</div>
+          <div class="ai-card">
+            <div class="ai-card-preview"><span class="ai-icon">🌌</span></div>
+            <div class="ai-card-info">
+              <div class="ai-card-left"><div class="ai-card-avatar">🌌</div><div><div class="ai-name">AntiGravity</div><div class="ai-role">Visual Creator</div></div></div>
+              <div class="ai-status"><span class="sdot"></span> online</div>
+            </div>
           </div>
-          <div class="ai-card" style="--card-accent:#10b981;">
-            <span class="ai-icon">🧠</span>
-            <div class="ai-name">GPT</div>
-            <div class="ai-role">Fallback Brain</div>
-            <div class="ai-status"><span class="sdot"></span> online</div>
+          <div class="ai-card">
+            <div class="ai-card-preview"><span class="ai-icon">🧠</span></div>
+            <div class="ai-card-info">
+              <div class="ai-card-left"><div class="ai-card-avatar">🧠</div><div><div class="ai-name">GPT</div><div class="ai-role">Fallback Brain</div></div></div>
+              <div class="ai-status"><span class="sdot"></span> online</div>
+            </div>
           </div>
-          <div class="ai-card ai-offline" style="--card-accent:var(--text3);">
-            <span class="ai-icon">🔮</span>
-            <div class="ai-name">Granite</div>
-            <div class="ai-role">Local Model</div>
-            <div class="ai-status"><span class="sdot"></span> standby</div>
+          <div class="ai-card ai-offline">
+            <div class="ai-card-preview"><span class="ai-icon">🔮</span></div>
+            <div class="ai-card-info">
+              <div class="ai-card-left"><div class="ai-card-avatar">🔮</div><div><div class="ai-name">Granite</div><div class="ai-role">Local Model</div></div></div>
+              <div class="ai-status"><span class="sdot"></span> standby</div>
+            </div>
           </div>
-          <div class="ai-card ai-offline" style="--card-accent:var(--text3);">
-            <span class="ai-icon">🦙</span>
-            <div class="ai-name">Ollama</div>
-            <div class="ai-role">Local Runtime</div>
-            <div class="ai-status"><span class="sdot"></span> standby</div>
+          <div class="ai-card ai-offline">
+            <div class="ai-card-preview"><span class="ai-icon">🦙</span></div>
+            <div class="ai-card-info">
+              <div class="ai-card-left"><div class="ai-card-avatar">🦙</div><div><div class="ai-name">Ollama</div><div class="ai-role">Local Runtime</div></div></div>
+              <div class="ai-status"><span class="sdot"></span> standby</div>
+            </div>
           </div>
-          <div class="ai-card ai-offline" style="--card-accent:var(--text3);">
-            <span class="ai-icon">🔥</span>
-            <div class="ai-name">Firebase</div>
-            <div class="ai-role">Data & Storage</div>
-            <div class="ai-status"><span class="sdot"></span> active</div>
+          <div class="ai-card ai-offline">
+            <div class="ai-card-preview"><span class="ai-icon">🔥</span></div>
+            <div class="ai-card-info">
+              <div class="ai-card-left"><div class="ai-card-avatar">🔥</div><div><div class="ai-name">Firebase</div><div class="ai-role">Data & Storage</div></div></div>
+              <div class="ai-status"><span class="sdot"></span> active</div>
+            </div>
           </div>
-          <div class="ai-card ai-offline" style="--card-accent:var(--text3);">
-            <span class="ai-icon">☁️</span>
-            <div class="ai-name">Cloudflare</div>
-            <div class="ai-role">Domain & Tunnel</div>
-            <div class="ai-status"><span class="sdot"></span> active</div>
+          <div class="ai-card ai-offline">
+            <div class="ai-card-preview"><span class="ai-icon">☁️</span></div>
+            <div class="ai-card-info">
+              <div class="ai-card-left"><div class="ai-card-avatar">☁️</div><div><div class="ai-name">Cloudflare</div><div class="ai-role">Domain & Tunnel</div></div></div>
+              <div class="ai-status"><span class="sdot"></span> active</div>
+            </div>
           </div>
-          <div class="ai-card ai-offline" style="--card-accent:var(--text3);">
-            <span class="ai-icon">📡</span>
-            <div class="ai-name">Telegram</div>
-            <div class="ai-role">Communication</div>
-            <div class="ai-status"><span class="sdot"></span> active</div>
+          <div class="ai-card ai-offline">
+            <div class="ai-card-preview"><span class="ai-icon">📡</span></div>
+            <div class="ai-card-info">
+              <div class="ai-card-left"><div class="ai-card-avatar">📡</div><div><div class="ai-name">Telegram</div><div class="ai-role">Communication</div></div></div>
+              <div class="ai-status"><span class="sdot"></span> active</div>
+            </div>
           </div>
-          <div class="ai-card ai-offline" style="--card-accent:var(--text3);">
-            <span class="ai-icon">⚡</span>
-            <div class="ai-name">GitHub</div>
-            <div class="ai-role">Deployment</div>
-            <div class="ai-status"><span class="sdot"></span> active</div>
+          <div class="ai-card ai-offline">
+            <div class="ai-card-preview"><span class="ai-icon">⚡</span></div>
+            <div class="ai-card-info">
+              <div class="ai-card-left"><div class="ai-card-avatar">⚡</div><div><div class="ai-name">GitHub</div><div class="ai-role">Deployment</div></div></div>
+              <div class="ai-status"><span class="sdot"></span> active</div>
+            </div>
           </div>
         </div>
       </div>
