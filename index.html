@@ -130,12 +130,20 @@
     .na { background:#000!important; color:#fff!important; font-size:10px; padding:6px 14px!important; border-radius:2px!important; font-weight:600; border:none!important; letter-spacing:2px; }
     .na:hover { background:var(--accent)!important; color:#000!important; }
 
-    /* Hero - full width, supports video */
+    /* Hero - full width slider */
     .hero { width:100%; aspect-ratio:16/9; position:relative; overflow:hidden; background:#000; margin:0; }
+    .hero-slider { display:flex; width:200%; height:100%; transition:transform .6s cubic-bezier(.4,0,.2,1); }
+    .hero-slide { width:50%; height:100%; flex-shrink:0; position:relative; }
     .hero-img, .hero-video { width:100%; height:100%; object-fit:cover; display:block; }
-    .hero-video { position:absolute; top:0; left:0; }
     .hero::before { content:none; }
     .hero::after { content:none; }
+    .hero-nav { position:absolute; top:50%; transform:translateY(-50%); background:rgba(0,0,0,0.4); color:#fff; border:1px solid rgba(255,255,255,0.2); width:40px; height:40px; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:10; font-size:14px; transition:.2s; backdrop-filter:blur(4px); }
+    .hero-nav:hover { background:var(--accent); color:#000; border-color:var(--accent); }
+    .hero-nav.prev { left:16px; }
+    .hero-nav.next { right:16px; }
+    .hero-dots { position:absolute; bottom:16px; left:50%; transform:translateX(-50%); display:flex; gap:8px; z-index:10; }
+    .hero-dot { width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,0.4); cursor:pointer; transition:.2s; border:none; }
+    .hero-dot.active { background:var(--accent); }
 
     /* Tagline below hero */
     .hero-content { padding:3rem var(--pad); position:relative; z-index:5; border-bottom:1px solid var(--border); }
@@ -363,8 +371,17 @@
   </header>
 
   <div id="heroWrap">
-    <section class="hero">
-      <video class="hero-video" autoplay muted loop playsinline src="images/hero-video.mp4"></video>
+    <section class="hero" id="heroSlider">
+      <div class="hero-slider" id="heroTrack">
+        <div class="hero-slide"><video class="hero-video" autoplay muted loop playsinline src="images/hero-video.mp4"></video></div>
+        <div class="hero-slide"><video class="hero-video" autoplay muted loop playsinline src="images/hero-video2.mp4"></video></div>
+      </div>
+      <button class="hero-nav prev" onclick="heroSlide(-1)">&#8592;</button>
+      <button class="hero-nav next" onclick="heroSlide(1)">&#8594;</button>
+      <div class="hero-dots">
+        <button class="hero-dot active" onclick="heroGo(0)"></button>
+        <button class="hero-dot" onclick="heroGo(1)"></button>
+      </div>
     </section>
     <div class="hero-content">
       <div class="hero-badge"><span class="dot"></span> RORO PROJECT</div>
@@ -910,6 +927,17 @@
       load();
     });
     setTimeout(() => { if (!fbOk) document.getElementById('ag').innerHTML = '<div class="empty"><div class="ei">⚠️</div><p>Firebase connection failed. Please refresh.</p></div>'; }, 6000);
+  </script>
+  <script>
+    let heroIdx = 0;
+    const heroTotal = 2;
+    function heroGo(i) {
+      heroIdx = i;
+      document.getElementById('heroTrack').style.transform = 'translateX(-' + (heroIdx * 50) + '%)';
+      document.querySelectorAll('.hero-dot').forEach((d, j) => d.classList.toggle('active', j === heroIdx));
+    }
+    function heroSlide(dir) { heroGo((heroIdx + dir + heroTotal) % heroTotal); }
+    setInterval(() => heroSlide(1), 8000);
   </script>
 </body>
 </html>
