@@ -393,7 +393,7 @@
       </div>
       <div class="hero-content">
         <div class="hero-badge"><span class="dot"></span> RORO PROJECT</div>
-        <h1 class="typewriter-wrap"><span id="typewriterText"></span></h1>
+        <h1 class="typewriter-wrap"><span id="typewriterText"></span><span class="typewriter-cursor" id="twCursor" style="opacity:0">|</span></h1>
       </div>
     </section>
     <div class="hero-search-wrap">
@@ -1077,18 +1077,24 @@
         });
       }
 
+      const cursor = document.getElementById('twCursor');
       function runCycle(){
+        cursor.style.opacity = '0';
+        cursor.style.animation = 'none';
         const mainChars = buildMain();
         // Show main
         showChars(mainChars, 0, 80, function(){
-          showChars(subChars, 0, 60, function(){
-            // Hold for 3s then hide all
+            // Typing done - show cursor blinking
+            cursor.style.opacity = '1';
+            cursor.style.animation = 'blink 0.8s infinite';
+            // Hold for 3s then hide
             setTimeout(function(){
+              cursor.style.opacity = '0';
+              cursor.style.animation = 'none';
               hideChars(mainChars, 60, function(){
                 setTimeout(runCycle, 500);
               });
             }, 3000);
-          });
       }
 
       const observer = new IntersectionObserver(entries => {
