@@ -147,20 +147,20 @@
     .hero-dot { width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,0.4); cursor:pointer; transition:.2s; border:none; }
     .hero-dot.active { background:var(--accent); }
 
-    /* Tagline below hero */
-    .hero-content { padding:3rem var(--pad); position:relative; z-index:5; border-bottom:1px solid var(--border); }
+    /* Tagline overlay on hero */
+    .hero-content { position:absolute; bottom:0; left:0; right:0; z-index:5; padding:3rem var(--pad); background:linear-gradient(transparent, rgba(0,0,0,0.7)); }
     .hero-content::before { content:none; }
 
-    .hero-badge { display:inline-flex; align-items:center; gap:8px; font-size:10px; color:var(--text3); font-family:var(--mono); margin-bottom:12px; letter-spacing:3px; text-transform:uppercase; border:none; padding:0; background:none; border-radius:0; }
+    .hero-badge { display:inline-flex; align-items:center; gap:8px; font-size:10px; color:rgba(255,255,255,0.7); font-family:var(--mono); margin-bottom:12px; letter-spacing:3px; text-transform:uppercase; border:none; padding:0; background:none; border-radius:0; }
     .hero-badge .dot { width:6px; height:6px; border-radius:50%; background:var(--accent); animation:pulse 2s infinite; }
     @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
 
-    .hero h1 { font-size:clamp(1.8rem,4vw,3rem); font-weight:700; line-height:1.2; margin-bottom:12px; letter-spacing:-0.02em; color:var(--text); font-family:var(--font); }
+    .hero h1 { font-size:clamp(1.8rem,4vw,3rem); font-weight:700; line-height:1.2; margin-bottom:12px; letter-spacing:-0.02em; color:#fff; font-family:var(--font); }
     .hero h1 .accent { color:var(--accent); }
 
     .hero-sub { font-size:13px; color:var(--text3); line-height:1.8; font-weight:400; font-family:var(--mono); letter-spacing:0.5px; max-width:500px; }
     .typewriter-wrap { display:flex; align-items:center; gap:2px; }
-    .typewriter-cursor { display:inline-block; font-weight:100; color:var(--accent); animation:blink 0.8s infinite; }
+    .typewriter-cursor { display:inline-block; font-weight:100; color:#39ff6e; animation:blink 0.8s infinite; }
     @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
     #typewriterText .tw-char { display:inline-block; opacity:0; transform:translateY(8px); transition:opacity 0.3s ease, transform 0.3s ease; }
     #typewriterText .tw-char.visible { opacity:1; transform:translateY(0); }
@@ -392,12 +392,12 @@
         <button class="hero-dot active" onclick="heroGo(0)"></button>
         <button class="hero-dot" onclick="heroGo(1)"></button>
       </div>
+      <div class="hero-content">
+        <div class="hero-badge"><span class="dot"></span> RORO PROJECT</div>
+        <h1 class="typewriter-wrap"><span id="typewriterText"></span><span class="typewriter-cursor">|</span></h1>
+        <p class="hero-sub-tw" id="heroSubTw"></p>
+      </div>
     </section>
-    <div class="hero-content">
-      <div class="hero-badge"><span class="dot"></span> RORO PROJECT</div>
-      <h1 class="typewriter-wrap"><span id="typewriterText"></span><span class="typewriter-cursor">|</span></h1>
-      <p class="hero-sub-tw" id="heroSubTw"></p>
-    </div>
     <div class="hero-search-wrap">
       <div class="hero-search">
         <input type="text" id="searchInput" placeholder="SEARCH..." onkeyup="if(event.key==='Enter')doSearch()">
