@@ -164,11 +164,11 @@
     @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
     #typewriterText .tw-char { display:inline-block; opacity:0; transform:translateY(8px); transition:opacity 0.3s ease, transform 0.3s ease; }
     #typewriterText .tw-char.visible { opacity:1; transform:translateY(0); }
-    #typewriterText .tw-char.accent { background:#39ff6e; color:#000; padding:2px 0; }
-    .hero-sub-tw { display:flex; flex-wrap:wrap; gap:4px; align-items:center; font-size:13px; color:var(--text3); font-family:var(--mono); letter-spacing:0.5px; max-width:500px; line-height:1.8; }
-    .hero-sub-tw .tw-word { display:inline-block; opacity:0; transform:translateY(6px); transition:opacity 0.4s ease, transform 0.4s ease; }
-    .hero-sub-tw .tw-word.visible { opacity:1; transform:translateY(0); }
-    .hero-sub-tw .tw-word.highlight { background:#39ff6e; color:#000; padding:2px 6px; font-weight:700; }
+    #typewriterText .tw-char.accent { color:#39ff6e; }
+    .hero-sub-tw { display:inline-block; font-size:13px; font-family:var(--mono); letter-spacing:0.5px; max-width:600px; line-height:2.2; }
+    .hero-sub-tw .tw-char { display:inline-block; opacity:0; transform:translateY(8px); transition:opacity 0.3s ease, transform 0.3s ease; background:#39ff6e; color:#000; padding:2px 0; font-weight:700; }
+    .hero-sub-tw .tw-char.visible { opacity:1; transform:translateY(0); }
+    .hero-sub-tw .tw-char.space { background:transparent; }
 
     /* Search */
     .hero-search-wrap { padding:2rem var(--pad); position:relative; z-index:10; border-bottom:1px solid var(--border); }
@@ -1038,65 +1038,88 @@
     function heroSlide(dir) { heroGo((heroIdx + dir + heroTotal) % heroTotal); }
     setInterval(() => heroSlide(1), 8000);
 
-    // Typewriter Effect
+    // Looping Typewriter Effect
     (function(){
-      const el = document.getElementById('typewriterText');
-      const phrases = [
+      const mainEl = document.getElementById('typewriterText');
+      const subEl = document.getElementById('heroSubTw');
+      const mainPhrases = [
         { text: 'We joined. ', accent: false },
         { text: 'Not competed.', accent: true }
       ];
-      let html = '';
-      phrases.forEach(p => {
-        for(let i = 0; i < p.text.length; i++){
-          const cls = p.accent ? 'tw-char accent' : 'tw-char';
-          html += p.text[i] === ' '
-            ? '<span class="' + cls + '" style="width:0.3em">&nbsp;</span>'
-            : '<span class="' + cls + '">' + p.text[i] + '</span>';
-        }
-      });
-      el.innerHTML = html;
-      const chars = el.querySelectorAll('.tw-char');
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if(entry.isIntersecting){
-            chars.forEach((c, i) => {
-              setTimeout(() => c.classList.add('visible'), i * 80);
-            });
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.5 });
-      observer.observe(el);
-    })();
+      const subText = '친구, 라이벌, 그리고 결국 "우리"';
 
-    // Hero Sub Typewriter
-    (function(){
-      const el = document.getElementById('heroSubTw');
-      const words = [
-        { text: '친구,', highlight: true },
-        { text: '라이벌,', highlight: true },
-        { text: '그리고', highlight: false },
-        { text: '결국', highlight: false },
-        { text: '"우리"', highlight: true }
-      ];
-      let html = '';
-      words.forEach(w => {
-        const cls = w.highlight ? 'tw-word highlight' : 'tw-word';
-        html += '<span class="' + cls + '">' + w.text + '</span> ';
-      });
-      el.innerHTML = html;
-      const spans = el.querySelectorAll('.tw-word');
+      function buildMain(){
+        let html = '';
+        mainPhrases.forEach(p => {
+          for(let i = 0; i < p.text.length; i++){
+            const cls = p.accent ? 'tw-char accent' : 'tw-char';
+            html += p.text[i] === ' '
+              ? '<span class="' + cls + '" style="width:0.3em">&nbsp;</span>'
+              : '<span class="' + cls + '">' + p.text[i] + '</span>';
+          }
+        });
+        mainEl.innerHTML = html;
+        return mainEl.querySelectorAll('.tw-char');
+      }
+
+      function buildSub(){
+        let html = '';
+        for(let i = 0; i < subText.length; i++){
+          html += subText[i] === ' '
+            ? '<span class="tw-char space" style="width:0.3em">&nbsp;</span>'
+            : '<span class="tw-char">' + subText[i] + '</span>';
+        }
+        subEl.innerHTML = html;
+        return subEl.querySelectorAll('.tw-char');
+      }
+
+      function showChars(chars, delay, speed, cb){
+        chars.forEach((c, i) => {
+          setTimeout(() => {
+            c.classList.add('visible');
+            if(i === chars.length - 1 && cb) setTimeout(cb, 800);
+          }, delay + i * speed);
+        });
+      }
+
+      function hideChars(chars, speed, cb){
+        const arr = Array.from(chars).reverse();
+        arr.forEach((c, i) => {
+          setTimeout(() => {
+            c.classList.remove('visible');
+            if(i === arr.length - 1 && cb) setTimeout(cb, 400);
+          }, i * (speed / 2));
+        });
+      }
+
+      function runCycle(){
+        const mainChars = buildMain();
+        const subChars = buildSub();
+        // Show main
+        showChars(mainChars, 0, 80, function(){
+          // Show sub
+          showChars(subChars, 0, 60, function(){
+            // Hold for 3s then hide all
+            setTimeout(function(){
+              hideChars(subChars, 60, function(){
+                hideChars(mainChars, 60, function(){
+                  setTimeout(runCycle, 500);
+                });
+              });
+            }, 3000);
+          });
+        });
+      }
+
       const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
           if(entry.isIntersecting){
-            spans.forEach((s, i) => {
-              setTimeout(() => s.classList.add('visible'), 1800 + i * 200);
-            });
+            runCycle();
             observer.unobserve(entry.target);
           }
         });
-      }, { threshold: 0.5 });
-      observer.observe(el);
+      }, { threshold: 0.3 });
+      observer.observe(mainEl);
     })();
   </script>
 </body>
