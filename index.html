@@ -400,7 +400,7 @@
         <div class="hero-stat-label">Posts</div>
       </div>
       <div class="hero-stat">
-        <div class="hero-stat-num">12</div>
+        <div class="hero-stat-num" id="statCrew">12</div>
         <div class="hero-stat-label">AI Crew</div>
       </div>
       <div class="hero-stat">
@@ -671,10 +671,35 @@
     async function fbDel(id) { await window._deleteDoc(window._doc(db(), 'posts', id)); }
     async function fbV(id) { try { await window._updateDoc(window._doc(db(), 'posts', id), { views: window._increment(1) }); } catch (e) { } }
 
+    function textScramble(el, finalText, duration = 0.8, speed = 0.04) {
+      const chars = '0123456789ABCDEF!@#$%';
+      const text = String(finalText);
+      const steps = duration / speed;
+      let step = 0;
+      const interval = setInterval(() => {
+        let scrambled = '';
+        const progress = step / steps;
+        for (let i = 0; i < text.length; i++) {
+          if (text[i] === ' ') { scrambled += ' '; continue; }
+          if (progress * text.length > i) {
+            scrambled += text[i];
+          } else {
+            scrambled += chars[Math.floor(Math.random() * chars.length)];
+          }
+        }
+        el.textContent = scrambled;
+        step++;
+        if (step > steps) { clearInterval(interval); el.textContent = text; }
+      }, speed * 1000);
+    }
+
     function updateStats() {
-      document.getElementById('statPosts').textContent = posts.length;
+      const postCount = posts.length;
       const totalViews = posts.reduce((a, p) => a + (p.views || 0), 0);
-      document.getElementById('statViews').textContent = totalViews > 999 ? (totalViews/1000).toFixed(1)+'K' : totalViews;
+      const viewText = totalViews > 999 ? (totalViews/1000).toFixed(1)+'K' : String(totalViews);
+      textScramble(document.getElementById('statPosts'), String(postCount), 1, 0.04);
+      textScramble(document.getElementById('statCrew'), '12', 0.8, 0.04);
+      textScramble(document.getElementById('statViews'), viewText, 1.2, 0.04);
     }
 
     let renderedOnce = false;
