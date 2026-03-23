@@ -22,6 +22,8 @@
   <meta property="twitter:description" content="친구, 라이벌, 그리고 결국 우리. We joined. Not competed.">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Flip.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
 
   <script type="module">
@@ -633,6 +635,7 @@
     const EM = { '일상': '🌿', '여행': '✈️', '음식': '🍜', '리뷰': '⭐', '기타': '📝' };
     let isAdmin = false, fbOk = false, cf = '전체', cid = null, em = false;
     let posts = [], blocks = [], tB64 = '', bid = 0;
+    if (typeof gsap !== 'undefined' && typeof Flip !== 'undefined') gsap.registerPlugin(Flip);
 
     // Theme toggle
     function toggleTheme() {
@@ -674,12 +677,12 @@
       document.getElementById('statViews').textContent = totalViews > 999 ? (totalViews/1000).toFixed(1)+'K' : totalViews;
     }
 
-    function rg(ps) {
+    let renderedOnce = false;
+
+    function renderAllCards(ps) {
       const g = document.getElementById('ag');
-      const list = cf === '전체' ? ps : ps.filter(p => p.category === cf);
       let h = '';
-      if (!list.length && !isAdmin) h = '<div class="empty"><div class="ei">📭</div><p>No posts yet.</p></div>';
-      list.forEach(p => {
+      ps.forEach(p => {
         const e2 = EM[p.category] || '📝', date = p.createdAt?.toDate ? p.createdAt.toDate().toLocaleDateString('ko-KR') : '';
         const tags = (p.tags || []).slice(0, 3).map(t => `<span class="ctg">#${x(t)}</span>`).join('');
         const th = p.thumb || (p.blocks || []).find(b => b.type === 'image')?.data || '';
@@ -692,7 +695,7 @@
             <button onclick="event.stopPropagation();cid='${p.id}';confirmDel()" style="background:rgba(0,0,0,0.7); border:1px solid var(--border); padding:6px 8px; border-radius:6px; cursor:pointer; backdrop-filter:blur(4px);"><i class="fa-solid fa-trash" style="font-size:11px; color:var(--red);"></i></button>
           </div>` : '';
         h += `
-          <div class="ac" onclick="openPost('${p.id}')" style="position:relative;">
+          <div class="ac" data-flip-id="post-${p.id}" data-cat="${p.category}" onclick="openPost('${p.id}')" style="position:relative;">
             ${adminTools}
             <div class="ct">${tH}</div>
             <div class="cb2">
@@ -703,8 +706,64 @@
             </div>
           </div>`;
       });
-      if (isAdmin) h += '<div class="addc" onclick="openWrite()"><div class="addi">+</div><span style="font-family:var(--mono);font-size:12px;">NEW POST</span></div>';
-      g.innerHTML = h; rSB(ps); updateStats();
+      if (isAdmin) h += '<div class="addc" data-flip-id="new-post" onclick="openWrite()"><div class="addi">+</div><span style="font-family:var(--mono);font-size:12px;">NEW POST</span></div>';
+      g.innerHTML = h;
+      // Initial load animation
+      if (typeof gsap !== 'undefined') {
+        gsap.from(g.querySelectorAll('.ac'), { opacity: 0, y: 30, scale: 0.95, duration: 0.5, stagger: 0.06, ease: 'power2.out' });
+      }
+    }
+
+    function rg(ps) {
+      const g = document.getElementById('ag');
+      if (!renderedOnce) {
+        renderAllCards(ps);
+        renderedOnce = true;
+        rSB(ps); updateStats();
+        return;
+      }
+
+      const cards = g.querySelectorAll('.ac');
+      if (!cards.length) { renderAllCards(ps); renderedOnce = true; rSB(ps); updateStats(); return; }
+
+      // Capture current state
+      const state = typeof Flip !== 'undefined' ? Flip.getState(cards) : null;
+
+      // Show/hide based on category
+      cards.forEach(card => {
+        const cat = card.getAttribute('data-cat');
+        if (cf === '전체' || cat === cf) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      // Check if no visible posts
+      const visibleCards = g.querySelectorAll('.ac:not([style*="display: none"])');
+      const emptyEl = g.querySelector('.empty');
+      if (emptyEl) emptyEl.remove();
+      if (!visibleCards.length && !isAdmin) {
+        const empty = document.createElement('div');
+        empty.className = 'empty';
+        empty.innerHTML = '<div class="ei">📭</div><p>No posts yet.</p>';
+        g.prepend(empty);
+      }
+
+      // Flip animate
+      if (state && typeof Flip !== 'undefined') {
+        Flip.from(state, {
+          duration: 0.6,
+          scale: true,
+          ease: 'power1.inOut',
+          stagger: 0.05,
+          absolute: true,
+          onEnter: (el) => gsap.fromTo(el, { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.6 }),
+          onLeave: (el) => gsap.to(el, { opacity: 0, scale: 0, duration: 0.5 }),
+        });
+      }
+
+      rSB(ps); updateStats();
     }
 
     function rSB(ps) {
@@ -721,9 +780,9 @@
 
     function goHome(push = true) {
       if (push) history.pushState({ home: true }, '', location.pathname + location.search);
-      cid = null; document.getElementById('mainView').style.display = ''; document.getElementById('heroWrap').style.display = ''; document.getElementById('dv').classList.remove('on'); rg(posts); window.scrollTo(0, 0);
+      cid = null; document.getElementById('mainView').style.display = ''; document.getElementById('heroWrap').style.display = ''; document.getElementById('dv').classList.remove('on'); renderedOnce = false; cf = '전체'; rg(posts); window.scrollTo(0, 0);
     }
-    function filterCat(c) { cf = c; if (document.getElementById('mainView').style.display === 'none') goHome(); else rg(posts); }
+    function filterCat(c) { cf = c; if (document.getElementById('mainView').style.display === 'none') goHome(); else { rg(posts); } }
     function doSearch() {
       const kw = document.getElementById('searchInput').value.trim().toLowerCase();
       cf = '전체';
