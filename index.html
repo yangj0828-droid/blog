@@ -164,7 +164,11 @@
     @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
     #typewriterText .tw-char { display:inline-block; opacity:0; transform:translateY(8px); transition:opacity 0.3s ease, transform 0.3s ease; }
     #typewriterText .tw-char.visible { opacity:1; transform:translateY(0); }
-    #typewriterText .tw-char.accent { color:var(--accent); }
+    #typewriterText .tw-char.accent { background:#39ff6e; color:#000; padding:2px 0; }
+    .hero-sub-tw { display:flex; flex-wrap:wrap; gap:4px; align-items:center; font-size:13px; color:var(--text3); font-family:var(--mono); letter-spacing:0.5px; max-width:500px; line-height:1.8; }
+    .hero-sub-tw .tw-word { display:inline-block; opacity:0; transform:translateY(6px); transition:opacity 0.4s ease, transform 0.4s ease; }
+    .hero-sub-tw .tw-word.visible { opacity:1; transform:translateY(0); }
+    .hero-sub-tw .tw-word.highlight { background:#39ff6e; color:#000; padding:2px 6px; font-weight:700; }
 
     /* Search */
     .hero-search-wrap { padding:2rem var(--pad); position:relative; z-index:10; border-bottom:1px solid var(--border); }
@@ -392,7 +396,7 @@
     <div class="hero-content">
       <div class="hero-badge"><span class="dot"></span> RORO PROJECT</div>
       <h1 class="typewriter-wrap"><span id="typewriterText"></span><span class="typewriter-cursor">|</span></h1>
-      <p class="hero-sub">친구, 라이벌, 그리고 결국 "우리"</p>
+      <p class="hero-sub-tw" id="heroSubTw"></p>
     </div>
     <div class="hero-search-wrap">
       <div class="hero-search">
@@ -1057,6 +1061,36 @@
           if(entry.isIntersecting){
             chars.forEach((c, i) => {
               setTimeout(() => c.classList.add('visible'), i * 80);
+            });
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.5 });
+      observer.observe(el);
+    })();
+
+    // Hero Sub Typewriter
+    (function(){
+      const el = document.getElementById('heroSubTw');
+      const words = [
+        { text: '친구,', highlight: true },
+        { text: '라이벌,', highlight: true },
+        { text: '그리고', highlight: false },
+        { text: '결국', highlight: false },
+        { text: '"우리"', highlight: true }
+      ];
+      let html = '';
+      words.forEach(w => {
+        const cls = w.highlight ? 'tw-word highlight' : 'tw-word';
+        html += '<span class="' + cls + '">' + w.text + '</span> ';
+      });
+      el.innerHTML = html;
+      const spans = el.querySelectorAll('.tw-word');
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if(entry.isIntersecting){
+            spans.forEach((s, i) => {
+              setTimeout(() => s.classList.add('visible'), 1800 + i * 200);
             });
             observer.unobserve(entry.target);
           }
