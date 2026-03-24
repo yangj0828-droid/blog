@@ -843,7 +843,29 @@
       document.getElementById('dbl').innerHTML = pb.map(b => {
         if (b.type === 'image') return `<div class="bim"><img src="${b.data}" alt="${x(b.caption || '')}">${b.caption ? `<div class="bcp">${x(b.caption)}</div>` : ''}</div>`;
         if (b.type === 'video') return `<div class="bim"><video src="${b.data}" class="bv" controls style="width:100%;border-radius:8px;"></video></div>`;
-        return `<div class="btx">${x(b.content)}</div>`;
+        
+        // Style injection for text blocks
+        let stls = '';
+        if (b.style) {
+          if (b.style.mapValue) {
+            const f = b.style.mapValue.fields;
+            if (f.fontSize) stls += `font-size:${f.fontSize.stringValue};`;
+            if (f.fontFamily) stls += `font-family:${f.fontFamily.stringValue}, sans-serif;`;
+            if (f.lineHeight) stls += `line-height:${f.lineHeight.stringValue};`;
+            if (f.letterSpacing) stls += `letter-spacing:${f.letterSpacing.stringValue};`;
+            if (f.color) stls += `color:${f.color.stringValue};`;
+            if (f.textAlign) stls += `text-align:${f.textAlign.stringValue};`;
+          } else if (typeof b.style === 'object') {
+            const s = b.style;
+            if (s.fontSize) stls += `font-size:${s.fontSize};`;
+            if (s.fontFamily) stls += `font-family:${s.fontFamily}, sans-serif;`;
+            if (s.lineHeight) stls += `line-height:${s.lineHeight};`;
+            if (s.letterSpacing) stls += `letter-spacing:${s.letterSpacing};`;
+            if (s.color) stls += `color:${s.color};`;
+            if (s.textAlign) stls += `text-align:${s.textAlign};`;
+          }
+        }
+        return `<div class="btx" style="${stls}">${x(b.content)}</div>`;
       }).join('');
       document.getElementById('dtags').innerHTML = (p.tags || []).map(t => `<span class="dtg">#${x(t)}</span>`).join('');
       const ab = document.getElementById('adb'); ab.style.display = isAdmin ? 'flex' : 'none';
