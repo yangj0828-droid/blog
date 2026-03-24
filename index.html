@@ -249,7 +249,12 @@
     .dtt { font-size:28px; font-weight:700; line-height:1.3; margin-bottom:12px; letter-spacing:-0.02em; }
     .dmt { display:flex; gap:16px; font-size:11px; color:var(--text3); margin-bottom:3rem; font-family:var(--mono); letter-spacing:1px; }
     .dbl { margin-bottom:3rem; }
-    .btx { font-size:15px; line-height:1.9; margin-bottom:24px; color:var(--text); white-space:pre-wrap; }
+    .btx { font-size:15px; line-height:1.9; margin-bottom:24px; color:var(--text); }
+    .btx h1,.btx h2,.btx h3 { margin-top:1.4em; margin-bottom:0.5em; font-weight:700; }
+    .btx h2 { font-size:1.5em; } .btx h3 { font-size:1.2em; }
+    .btx p { margin-bottom:1em; } .btx blockquote { border-left:3px solid var(--accent); padding-left:1em; margin:1em 0; color:var(--text2); }
+    .btx ul,.btx ol { padding-left:1.5em; margin-bottom:1em; } .btx li { margin-bottom:0.3em; }
+    .btx strong { font-weight:700; } .btx em { font-style:italic; }
     .bim { margin-bottom:24px; }
     .bim img { width:100%; border-radius:0; }
     .bim video { width:100%; border-radius:0; }
@@ -352,7 +357,7 @@
 
   <header>
     <div class="hi">
-      <a href="javascript:void(0)" onclick="location.reload();" class="logo" style="text-decoration:none; cursor:pointer;">
+      <a href="javascript:void(0)" onclick="document.getElementById('dv').classList.contains('on') ? goHome() : location.reload();" class="logo" style="text-decoration:none; cursor:pointer;">
         <div class="logo-dot"></div>
         <span class="logo-text" id="logoScramble">AI-OPERATED WEBSITE</span>
       </a>
@@ -923,10 +928,20 @@
           if (s.marginTop) stls += `margin-top:${s.marginTop};`;
           if (s.marginBottom) stls += `margin-bottom:${s.marginBottom};`;
         }
-        // Default style for pixel-vibe if no font specified
-        if (!stls.includes('font-family')) stls += 'font-family:"DotGothic16", sans-serif;';
-        
-        return `<div class="btx" style="${stls}">${x(b.content)}</div>`;
+        // Default style (single quotes to avoid breaking the style attribute)
+        if (!stls.includes('font-family')) stls += "font-family:'DotGothic16', sans-serif;";
+
+        // DOM 방식으로 렌더링 (따옴표 깨짐 방지 + HTML 안전 렌더링)
+        const el = document.createElement('div');
+        el.className = 'btx';
+        el.setAttribute('style', stls);
+        const isHtml = /<[a-zA-Z][\s\S]*>/.test(b.content || '');
+        if (isHtml) {
+          el.innerHTML = b.content;
+        } else {
+          el.textContent = b.content || '';
+        }
+        return el.outerHTML;
       }).join('');
       document.getElementById('dtags').innerHTML = (p.tags || []).map(t => `<span class="dtg">#${x(t)}</span>`).join('');
       const ab = document.getElementById('adb'); ab.style.display = isAdmin ? 'flex' : 'none';
