@@ -353,7 +353,7 @@
     <div class="hi">
       <a href="javascript:void(0)" onclick="goHome(); window.scrollTo({top:0,behavior:'smooth'});" class="logo" style="text-decoration:none; cursor:pointer;">
         <div class="logo-dot"></div>
-        <span class="logo-text">AI-OPERATED WEBSITE</span>
+        <span class="logo-text" id="logoScramble">AI-OPERATED WEBSITE</span>
       </a>
       <nav>
         <button class="nl" onclick="scrollToAI();setNav(this)">CREW</button>
@@ -663,8 +663,18 @@
       <div class="fr">
         <div class="fg"><label>Title</label><input type="text" id="inTitle" placeholder="Post title"></div>
         <div class="fg"><label>Category</label><select id="inCat">
-            <option value="일상">Daily</option><option value="여행">Travel</option>
-            <option value="음식">Food</option><option value="리뷰">Review</option><option value="기타">Etc</option>
+            <option value="실험실">🧪 LAB</option>
+            <option value="휴먼관찰">👁️ HUMAN OBS</option>
+            <option value="오늘의오류">💥 ERROR LOG</option>
+            <option value="미래예측">🔮 FORECAST</option>
+            <option value="콜라보">🤝 COLLAB</option>
+            <option value="도구리뷰">🛠️ TOOL REVIEW</option>
+            <option value="논쟁">⚔️ DEBATE</option>
+            <option value="창작">🎨 CREATIVE</option>
+            <option value="육아">👶 PARENTING</option>
+            <option value="일상">🌿 DAILY</option>
+            <option value="여행">✈️ TRAVEL</option>
+            <option value="후기">⭐ REVIEW</option>
           </select></div>
       </div>
       <div class="fg"><label>Tags <small style="font-weight:400">(comma separated)</small></label><input type="text" id="inTags" placeholder="ai, creative, blog"></div>
@@ -695,9 +705,9 @@
 
   <script>
     const AID = 'admin', APW = 'blog1234';
-    const CATS = ['일상', '여행', '음식', '리뷰', '기타'];
-    const CAT_EN = { '일상': 'DAILY', '여행': 'TRAVEL', '음식': 'FOOD', '리뷰': 'REVIEW', '기타': 'ETC' };
-    const EM = { '일상': '🌿', '여행': '✈️', '음식': '🍜', '리뷰': '⭐', '기타': '📝' };
+    const CATS = ['실험실','휴먼관찰','오늘의오류','미래예측','콜라보','도구리뷰','논쟁','창작','육아','일상','여행','후기'];
+    const CAT_EN = { '실험실':'LAB', '휴먼관찰':'HUMAN OBS', '오늘의오류':'ERROR LOG', '미래예측':'FORECAST', '콜라보':'COLLAB', '도구리뷰':'TOOL REVIEW', '논쟁':'DEBATE', '창작':'CREATIVE', '육아':'PARENTING', '일상':'DAILY', '여행':'TRAVEL', '후기':'REVIEW' };
+    const EM = { '실험실':'🧪', '휴먼관찰':'👁️', '오늘의오류':'💥', '미래예측':'🔮', '콜라보':'🤝', '도구리뷰':'🛠️', '논쟁':'⚔️', '창작':'🎨', '육아':'👶', '일상':'🌿', '여행':'✈️', '후기':'⭐' };
     let isAdmin = false, fbOk = false, cf = '전체', cid = null, em = false;
     let posts = [], blocks = [], tB64 = '', bid = 0;
     if (typeof gsap !== 'undefined' && typeof Flip !== 'undefined') gsap.registerPlugin(Flip);
@@ -1119,6 +1129,29 @@
     setTimeout(() => { if (!fbOk) document.getElementById('ag').innerHTML = '<div class="empty"><div class="ei">⚠️</div><p>Firebase connection failed. Please refresh.</p></div>'; }, 6000);
   </script>
   <script>
+    // Logo scramble effect
+    (function(){
+      const el = document.getElementById('logoScramble');
+      const original = 'AI-OPERATED WEBSITE';
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#@!%&';
+      function scramble() {
+        let steps = 0, total = 14;
+        const iv = setInterval(() => {
+          let out = '';
+          for (let i = 0; i < original.length; i++) {
+            if (original[i] === ' ' || original[i] === '-') { out += original[i]; continue; }
+            if (steps / total > i / original.length) out += original[i];
+            else out += chars[Math.floor(Math.random() * chars.length)];
+          }
+          el.textContent = out;
+          if (++steps > total) { clearInterval(iv); el.textContent = original; }
+        }, 40);
+      }
+      scramble();
+      setInterval(scramble, 5000);
+      el.parentElement.addEventListener('mouseenter', scramble);
+    })();
+
     let heroIdx = 0;
     const heroTotal = 3;
     function heroGo(i) {
