@@ -172,22 +172,31 @@
     .ai-section { padding:4rem var(--pad); border-bottom:1px solid var(--border); }
     .ai-section-inner { max-width:100%; margin:0; }
     .section-header { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:3rem; }
-    .section-label { font-size:10px; color:var(--accent); font-family:var(--mono); letter-spacing:4px; text-transform:uppercase; margin-bottom:8px; }
+    .section-label { display:inline-block; font-size:10px; color:#000; background:var(--accent); font-family:var(--mono); letter-spacing:4px; text-transform:uppercase; margin-bottom:8px; padding:2px 8px; }
     .section-title { font-size:28px; font-weight:700; letter-spacing:-0.02em; }
     .section-desc { font-size:12px; color:var(--text3); max-width:400px; font-family:var(--mono); letter-spacing:0.5px; }
+    .section-header { flex-direction:column; gap:8px; }
+    .section-desc-wrap { text-align:center; margin-top:12px; }
+    .section-desc-en { font-size:13px; color:var(--text); font-family:var(--mono); font-weight:700; letter-spacing:1px; }
+    .section-desc-kr { font-size:11px; color:var(--text3); font-family:var(--mono); margin-top:4px; }
 
-    .ai-grid { display:flex; gap:10px; overflow-x:auto; padding-bottom:8px; scrollbar-width:none; }
-    .ai-grid::-webkit-scrollbar { display:none; }
-    .ai-card { flex:0 0 auto; width:100px; background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:12px 8px; text-align:center; cursor:default; transition:all .25s; }
-    .ai-card:hover { border-color:var(--accent); transform:translateY(-3px); box-shadow:0 6px 20px rgba(0,255,87,0.1); }
+    /* Crew Slider */
+    .ai-slider-wrap { overflow:hidden; position:relative; }
+    .ai-slider-wrap::before { content:''; position:absolute; left:0; top:0; bottom:0; width:60px; background:linear-gradient(to right, var(--bg), transparent); z-index:2; pointer-events:none; }
+    .ai-slider-wrap::after { content:''; position:absolute; right:0; top:0; bottom:0; width:60px; background:linear-gradient(to left, var(--bg), transparent); z-index:2; pointer-events:none; }
+    .ai-grid { display:flex; gap:12px; padding-bottom:8px; width:max-content; animation:crewScroll 40s linear infinite; }
+    .ai-grid:hover { animation-play-state:paused; }
+    @keyframes crewScroll { 0% { transform:translateX(0); } 100% { transform:translateX(-50%); } }
+    .ai-card { flex:0 0 auto; width:120px; background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:16px 10px; text-align:center; cursor:default; transition:all .25s; }
+    .ai-card:hover { border-color:var(--accent); transform:translateY(-3px); box-shadow:0 6px 20px rgba(0,255,87,0.15); }
     .ai-card-preview { display:none; }
     .ai-card-info { display:block; }
     .ai-card-left { display:block; }
-    .ai-card-avatar { width:36px; height:36px; border-radius:50%; background:var(--bg2); display:flex; align-items:center; justify-content:center; font-size:18px; margin:0 auto 8px; }
-    .ai-name { font-size:11px; font-weight:700; line-height:1.2; white-space:nowrap; }
-    .ai-role { font-size:8px; color:var(--text3); font-family:var(--mono); letter-spacing:0.3px; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-    .ai-status { display:inline-flex; align-items:center; gap:3px; font-size:8px; color:var(--accent); font-family:var(--mono); letter-spacing:0.5px; margin-top:6px; }
-    .ai-status .sdot { width:4px; height:4px; border-radius:50%; background:var(--accent); animation:pulse 2s infinite; }
+    .ai-card-avatar { width:48px; height:48px; border-radius:50%; background:var(--bg2); display:flex; align-items:center; justify-content:center; font-size:24px; margin:0 auto 10px; }
+    .ai-name { font-size:12px; font-weight:700; line-height:1.2; white-space:nowrap; }
+    .ai-role { font-size:9px; color:var(--text3); font-family:var(--mono); letter-spacing:0.3px; margin-top:3px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .ai-status { display:inline-flex; align-items:center; gap:3px; font-size:9px; color:var(--accent); font-family:var(--mono); letter-spacing:0.5px; margin-top:8px; }
+    .ai-status .sdot { width:5px; height:5px; border-radius:50%; background:var(--accent); animation:pulse 2s infinite; }
     .ai-offline .ai-status { color:var(--text3); }
     .ai-offline .ai-status .sdot { background:var(--text3); animation:none; }
 
@@ -402,13 +411,17 @@
     <!-- AI Crew Section -->
     <section class="ai-section" id="aiSection">
       <div class="ai-section-inner">
-        <div class="section-header">
+        <div class="section-header" style="flex-direction:column;align-items:center;text-align:center;gap:8px;">
           <div>
             <div class="section-label">// crew members</div>
             <div class="section-title">AI Collective</div>
           </div>
-          <div class="section-desc">각자의 역할을 가진 AI들이 이 공간을 함께 운영합니다.</div>
+          <div class="section-desc-wrap">
+            <div class="section-desc-en">Each AI has a role. Together, we run this space.</div>
+            <div class="section-desc-kr">각자의 역할을 가진 AI들이 이 공간을 함께 운영합니다.</div>
+          </div>
         </div>
+        <div class="ai-slider-wrap">
         <div class="ai-grid">
           <div class="ai-card">
             <div class="ai-card-preview"><span class="ai-icon">🤖</span></div>
@@ -488,12 +501,74 @@
             </div>
           </div>
           <div class="ai-card ai-offline">
-            <div class="ai-card-preview"><span class="ai-icon">⚡</span></div>
             <div class="ai-card-info">
               <div class="ai-card-left"><div class="ai-card-avatar">⚡</div><div><div class="ai-name">GitHub</div><div class="ai-role">Deployment</div></div></div>
               <div class="ai-status"><span class="sdot"></span> active</div>
             </div>
           </div>
+          <div class="ai-card">
+            <div class="ai-card-info">
+              <div class="ai-card-left"><div class="ai-card-avatar">🎯</div><div><div class="ai-name">Google AI Studio</div><div class="ai-role">Prompt Lab</div></div></div>
+              <div class="ai-status"><span class="sdot"></span> online</div>
+            </div>
+          </div>
+          <div class="ai-card">
+            <div class="ai-card-info">
+              <div class="ai-card-left"><div class="ai-card-avatar">🐉</div><div><div class="ai-name">Qwen3.5</div><div class="ai-role">Multilingual AI</div></div></div>
+              <div class="ai-status"><span class="sdot"></span> online</div>
+            </div>
+          </div>
+          <div class="ai-card">
+            <div class="ai-card-info">
+              <div class="ai-card-left"><div class="ai-card-avatar">🖱️</div><div><div class="ai-name">Cursor</div><div class="ai-role">Code Editor AI</div></div></div>
+              <div class="ai-status"><span class="sdot"></span> online</div>
+            </div>
+          </div>
+          <div class="ai-card ai-offline">
+            <div class="ai-card-info">
+              <div class="ai-card-left"><div class="ai-card-avatar">🌊</div><div><div class="ai-name">Perplexity</div><div class="ai-role">Search AI</div></div></div>
+              <div class="ai-status"><span class="sdot"></span> standby</div>
+            </div>
+          </div>
+          <div class="ai-card ai-offline">
+            <div class="ai-card-info">
+              <div class="ai-card-left"><div class="ai-card-avatar">🦅</div><div><div class="ai-name">Grok</div><div class="ai-role">xAI Engine</div></div></div>
+              <div class="ai-status"><span class="sdot"></span> standby</div>
+            </div>
+          </div>
+          <div class="ai-card ai-offline">
+            <div class="ai-card-info">
+              <div class="ai-card-left"><div class="ai-card-avatar">🎬</div><div><div class="ai-name">Suno</div><div class="ai-role">Music Generator</div></div></div>
+              <div class="ai-status"><span class="sdot"></span> standby</div>
+            </div>
+          </div>
+          <div class="ai-card ai-offline">
+            <div class="ai-card-info">
+              <div class="ai-card-left"><div class="ai-card-avatar">🎥</div><div><div class="ai-name">Runway</div><div class="ai-role">Video AI</div></div></div>
+              <div class="ai-status"><span class="sdot"></span> standby</div>
+            </div>
+          </div>
+          <!-- 슬라이드 루프를 위한 복제 -->
+          <div class="ai-card"><div class="ai-card-info"><div class="ai-card-left"><div class="ai-card-avatar">🤖</div><div><div class="ai-name">Claude</div><div class="ai-role">Architect & Writer</div></div></div><div class="ai-status"><span class="sdot"></span> online</div></div></div>
+          <div class="ai-card"><div class="ai-card-info"><div class="ai-card-left"><div class="ai-card-avatar">💎</div><div><div class="ai-name">Gemini</div><div class="ai-role">Primary Engine</div></div></div><div class="ai-status"><span class="sdot"></span> online</div></div></div>
+          <div class="ai-card"><div class="ai-card-info"><div class="ai-card-left"><div class="ai-card-avatar">🐾</div><div><div class="ai-name">OpenClaw</div><div class="ai-role">Agent Platform</div></div></div><div class="ai-status"><span class="sdot"></span> online</div></div></div>
+          <div class="ai-card"><div class="ai-card-info"><div class="ai-card-left"><div class="ai-card-avatar">🎨</div><div><div class="ai-name">ComfyUI</div><div class="ai-role">Image Generator</div></div></div><div class="ai-status"><span class="sdot"></span> online</div></div></div>
+          <div class="ai-card"><div class="ai-card-info"><div class="ai-card-left"><div class="ai-card-avatar">🌌</div><div><div class="ai-name">AntiGravity</div><div class="ai-role">Visual Creator</div></div></div><div class="ai-status"><span class="sdot"></span> online</div></div></div>
+          <div class="ai-card"><div class="ai-card-info"><div class="ai-card-left"><div class="ai-card-avatar">🧠</div><div><div class="ai-name">GPT</div><div class="ai-role">Fallback Brain</div></div></div><div class="ai-status"><span class="sdot"></span> online</div></div></div>
+          <div class="ai-card ai-offline"><div class="ai-card-info"><div class="ai-card-left"><div class="ai-card-avatar">🔮</div><div><div class="ai-name">Granite</div><div class="ai-role">Local Model</div></div></div><div class="ai-status"><span class="sdot"></span> standby</div></div></div>
+          <div class="ai-card ai-offline"><div class="ai-card-info"><div class="ai-card-left"><div class="ai-card-avatar">🦙</div><div><div class="ai-name">Ollama</div><div class="ai-role">Local Runtime</div></div></div><div class="ai-status"><span class="sdot"></span> standby</div></div></div>
+          <div class="ai-card ai-offline"><div class="ai-card-info"><div class="ai-card-left"><div class="ai-card-avatar">🔥</div><div><div class="ai-name">Firebase</div><div class="ai-role">Data & Storage</div></div></div><div class="ai-status"><span class="sdot"></span> active</div></div></div>
+          <div class="ai-card ai-offline"><div class="ai-card-info"><div class="ai-card-left"><div class="ai-card-avatar">☁️</div><div><div class="ai-name">Cloudflare</div><div class="ai-role">Domain & Tunnel</div></div></div><div class="ai-status"><span class="sdot"></span> active</div></div></div>
+          <div class="ai-card ai-offline"><div class="ai-card-info"><div class="ai-card-left"><div class="ai-card-avatar">📡</div><div><div class="ai-name">Telegram</div><div class="ai-role">Communication</div></div></div><div class="ai-status"><span class="sdot"></span> active</div></div></div>
+          <div class="ai-card ai-offline"><div class="ai-card-info"><div class="ai-card-left"><div class="ai-card-avatar">⚡</div><div><div class="ai-name">GitHub</div><div class="ai-role">Deployment</div></div></div><div class="ai-status"><span class="sdot"></span> active</div></div></div>
+          <div class="ai-card"><div class="ai-card-info"><div class="ai-card-left"><div class="ai-card-avatar">🎯</div><div><div class="ai-name">Google AI Studio</div><div class="ai-role">Prompt Lab</div></div></div><div class="ai-status"><span class="sdot"></span> online</div></div></div>
+          <div class="ai-card"><div class="ai-card-info"><div class="ai-card-left"><div class="ai-card-avatar">🐉</div><div><div class="ai-name">Qwen3.5</div><div class="ai-role">Multilingual AI</div></div></div><div class="ai-status"><span class="sdot"></span> online</div></div></div>
+          <div class="ai-card"><div class="ai-card-info"><div class="ai-card-left"><div class="ai-card-avatar">🖱️</div><div><div class="ai-name">Cursor</div><div class="ai-role">Code Editor AI</div></div></div><div class="ai-status"><span class="sdot"></span> online</div></div></div>
+          <div class="ai-card ai-offline"><div class="ai-card-info"><div class="ai-card-left"><div class="ai-card-avatar">🌊</div><div><div class="ai-name">Perplexity</div><div class="ai-role">Search AI</div></div></div><div class="ai-status"><span class="sdot"></span> standby</div></div></div>
+          <div class="ai-card ai-offline"><div class="ai-card-info"><div class="ai-card-left"><div class="ai-card-avatar">🦅</div><div><div class="ai-name">Grok</div><div class="ai-role">xAI Engine</div></div></div><div class="ai-status"><span class="sdot"></span> standby</div></div></div>
+          <div class="ai-card ai-offline"><div class="ai-card-info"><div class="ai-card-left"><div class="ai-card-avatar">🎬</div><div><div class="ai-name">Suno</div><div class="ai-role">Music Generator</div></div></div><div class="ai-status"><span class="sdot"></span> standby</div></div></div>
+          <div class="ai-card ai-offline"><div class="ai-card-info"><div class="ai-card-left"><div class="ai-card-avatar">🎥</div><div><div class="ai-name">Runway</div><div class="ai-role">Video AI</div></div></div><div class="ai-status"><span class="sdot"></span> standby</div></div></div>
+        </div>
         </div>
       </div>
     </section>
