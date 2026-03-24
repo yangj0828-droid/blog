@@ -204,7 +204,8 @@
     .cb { background:var(--bg); border-bottom:1px solid var(--border); position:sticky; top:var(--hh); z-index:100; }
     .cbi { padding:0 var(--pad); display:flex; overflow-x:auto; gap:0; }
     .cbi::-webkit-scrollbar { display:none; }
-    .cp { background:none; border:none; font-family:var(--mono); font-size:11px; font-weight:400; color:var(--text3); padding:14px 20px; cursor:pointer; white-space:nowrap; transition: color .2s; flex-shrink:0; border-bottom:2px solid transparent; letter-spacing:2px; text-transform:uppercase; }
+    .cp { background:none; border:none; font-family:var(--mono); font-size:11px; font-weight:400; color:var(--text3); padding:14px 20px; cursor:pointer; white-space:nowrap; transition: color .2s; flex-shrink:0; border-bottom:2px solid transparent; letter-spacing:2px; text-transform:uppercase; display:flex; flex-direction:column; align-items:center; gap:2px; }
+    .cat-kr { font-size:9px; font-family:var(--font); letter-spacing:0; text-transform:none; color:var(--text3); opacity:0.7; }
     .cp:hover { color:var(--text); }
     .cp.active { color:var(--accent); border-bottom-color:var(--accent); }
     .cp .cnt { font-size:9px; background:none; padding:0; border-radius:0; margin-left:4px; color:var(--text3); font-family:var(--mono); }
@@ -867,7 +868,7 @@
         let allHtml = `<button class="cp ${cf === '전체' ? 'active' : ''}" onclick="filterCat('전체');setCat(this)">ALL <span class="cnt">${ps.length}</span></button>`;
         const catsHtml = CATS.map(c => {
           const count = ps.filter(p => p.category === c).length;
-          return `<button class="cp ${cf === c ? 'active' : ''}" onclick="filterCat('${c}');setCat(this)">${CAT_EN[c] || c} <span class="cnt">${count}</span></button>`;
+          return `<button class="cp ${cf === c ? 'active' : ''}" onclick="filterCat('${c}');setCat(this)">${CAT_EN[c] || c}<span class="cat-kr">${c}</span> <span class="cnt">${count}</span></button>`;
         }).join('');
         topStats.innerHTML = allHtml + catsHtml;
       }
