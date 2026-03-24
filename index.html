@@ -1004,22 +1004,10 @@
       catch (e) { toast('Delete failed.', 'err'); }
     }
     let _initialHashChecked = false;
-    function syncCatUI() {
-      const catButtons = document.querySelectorAll('.cp');
-      if (!catButtons.length) return;
-      catButtons.forEach(b => b.classList.remove('active'));
-      const allBtn = Array.from(catButtons).find(btn => btn.textContent.trim().startsWith('ALL'));
-      if (allBtn) allBtn.classList.add('active');
-    }
     async function load() {
       document.getElementById('ag').innerHTML = '<div class="ld"><div class="sp"></div>Loading...</div>';
       posts = await fbAll();
-      // 초기 진입 시 카테고리 필터를 항상 전체로 고정
-      cf = '전체';
       rg(posts);
-      syncCatUI();
-      // 일부 브라우저/캐시 상태에서 초기 필터가 비정상 적용되는 경우 방지
-      filterCat('전체');
       // Check hash only on first load
       if (!_initialHashChecked) {
         _initialHashChecked = true;
