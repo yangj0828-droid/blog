@@ -795,7 +795,6 @@
         const tags = (p.tags || []).slice(0, 3).map(t => `<span class="ctg">#${x(t)}</span>`).join('');
         const th = p.thumb || (p.blocks || []).find(b => b.type === 'image')?.data || '';
         const tH = th ? `<img src="${th}" alt="${x(p.title)}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="ctp" style="display:none">${e2}</div>` : `<div class="ctp">${e2}</div>`;
-        const exc = (p.blocks || []).find(b => b.type === 'text')?.content || p.body || '';
         const catEn = CAT_EN[p.category] || p.category;
         const adminTools = isAdmin ? `
           <div style="position:absolute; top:12px; right:12px; z-index:10; display:flex; gap:6px;">
@@ -809,7 +808,6 @@
             <div class="cb2">
               <div class="cm"><span class="cc">${catEn}</span><span class="cd">${date}</span><span class="cv">${p.views || 0}</span></div>
               <div class="ctt">${x(p.title)}</div>
-              <div class="ce">${x(exc.replace(/\n/g, ' '))}</div>
               <div class="ctgs">${tags}</div>
             </div>
           </div>`;
